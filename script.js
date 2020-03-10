@@ -1,41 +1,60 @@
+
+
 class World {
-    World(mutationChance, ) {
+    World(mutationChance, foodSpawnFrequency) {
 
     }
 }
 
+
+
 class Population {
-    Population(creatureAmount, boardSize) {
-        this.creatureAmount = creatureAmount;
+    Population(herbivoreAmount, carnivoreAmount, boardSize) {
+        this.herbivoreAmount = herbivoreAmount;
+        this.carnivoreAmount = carnivoreAmount;
         this.boardSize = boardSize;
+
+        this.herbivores = []
+        for (let index = 0; index < herbivoreAmount; index++) {
+            //Create new herbivore
+            herbivore = new Herbivore()
+
+            
+        }
     }
 }
 
 class Food {
-    Food(givenEnergy) {
-        this.givenEnergy = givenEnergy;
+    Food() {
+        this.givenEnergy = 12;
     }
 }
 
-class Creature {
-    Creature(energy, foodType, maxEnergy, currentEnergy, perceptionFieldDistance, speed, size) {
-        this.energy = energy;
-        this.foodType = foodType;
-        this.maxEnergy = maxEnergy;
-        this.currentEnergy = currentEnergy;
-        this.perceptionFieldDistance = perceptionFieldDistance;
-        this.speed = speed;
-        this.size = size;
 
-        this.health = 10 * size;
-    }
-}
-
-class Herbivore {
-    Herbivore(parts) {
-        Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
-
+class Carnivore {
+    Carnivore(parts) {
+        this.x = 0;
+        this.y = 0;
+        this.foodType = "carnivore";
         this.parts = parts
+
+        //Max values
+        this.energy = 25;
+        this.maxEnergy = 25;
+
+        // Customizable values
+        this.perceptionFieldDistance = 10;
+        this.speed = 10;
+        this.size = 2;
+        this.offspringPerBirth = 5;
+        this.color = getRandomColor();
+
+        //Randomize values
+        this.perceptionFieldDistance *= Math.random();
+        this.speed *= Math.random();
+        this.size *= Math.random();
+        this.offspringPerBirth *= Math.random();
+
     }
 
     move(directionVector) {
@@ -51,23 +70,38 @@ class Herbivore {
     }
 }
 
-class Carnivore {
-    Carnviore() {
-        Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
+class Herbivore {
+    Herbivore() {
+        this.x = 0;
+        this.y = 0;
+        this.foodType = "herbivore";
+
+        //Max values
+        this.energy = 25;
+        this.maxEnergy = 25;
+
+        // Customizable values
+        this.perceptionFieldDistance = 10;
+        this.speed = 10;
+        this.size = 2;
+        this.offspringPerBirth = 5;
+        this.color = getRandomColor();
+
+        //Randomize values
+        this.perceptionFieldDistance *= Math.random();
+        this.speed *= Math.random();
+        this.size *= Math.random();
+        this.offspringPerBirth *= Math.random();
     }
-
-
 }
 
-function prepareSimulation() {
 
-}
 
-function runSimulation(creatures) {
-
-}
-
-function draw() {
-
-}
-
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
