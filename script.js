@@ -3,25 +3,55 @@ let ctx = canvas.getContext("2d");
 
 
 class World {
-    World(mutationChance, ) {
-
-    }
+    World(mutationChance, foodSpawnFrequency, boardSize) {
+        this.mutationChance = mutationChance;
+        this.foodSpawnFrequency = foodSpawnFrequency;
+        this.boardSize = boardSize;
+    }   
 }
 
 
 
 class Population {
-    Population(herbivoreAmount, carnivoreAmount, boardSize) {
+    Population(herbivoreAmount, carnivoreAmount) {
         this.herbivoreAmount = herbivoreAmount;
         this.carnivoreAmount = carnivoreAmount;
         this.boardSize = boardSize;
-        this.herbivores = []
+
+        //Create herbivores
+        this.herbivores = [];
         for (let index = 0; index < herbivoreAmount; index++) {
             //Create new herbivore
-            herbivore = new Herbivore()
+            herbivore = new Herbivore();
+            this.herbivores.push(herbivore);
+        }
+
+        //Create carnivores
+        this.carnivores = [];
+        for (let index = 0; index < carnivoreAmount; index++) {
+            //Create new carnivore
+            carnivore = new Carnivore();
+            this.carnivores.push(herbivore);
         }
     }
+
+    makeMoves() {
+        for (let index = 0; index < this.carnivores.length; index++) {
+            const creature = this.carnivores[index];
+            creature.move()
+            
+        }
+
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const creature = this.herbivores[index];
+            creature.move()
+            
+        }
+
+        this.draw();
+    }
     
+
     draw() { 
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -121,6 +151,11 @@ class Herbivore {
         this.size *= Math.random();
         this.offspringPerBirth *= Math.random();
 
+    }
+
+    move(directionVector) {
+        x += directionVector[0];
+        y += directionVector[1];
     }
 }
 
