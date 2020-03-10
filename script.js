@@ -1,3 +1,22 @@
+class World {
+    World(mutationChance, ) {
+
+    }
+}
+
+class Population {
+    Population(creatureAmount, boardSize) {
+        this.creatureAmount = creatureAmount;
+        this.boardSize = boardSize;
+    }
+}
+
+class Food {
+    Food(givenEnergy) {
+        this.givenEnergy = givenEnergy;
+    }
+}
+
 class Creature {
     Creature(energy, foodType, maxEnergy, currentEnergy, perceptionFieldDistance, speed, size) {
         this.energy = energy;
@@ -7,6 +26,8 @@ class Creature {
         this.perceptionFieldDistance = perceptionFieldDistance;
         this.speed = speed;
         this.size = size;
+
+        this.health = 10 * size;
     }
 }
 
@@ -27,8 +48,6 @@ class Herbivore {
 
         //Remove end of tail
         parts.pop()
-
-
     }
 }
 
