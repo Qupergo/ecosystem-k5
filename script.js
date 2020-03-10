@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 const canvas = document.querySelector("#EcosystemCanvas");
 let ctx = canvas.getContext("2d");
-=======
 
->>>>>>> 0111da55b753e86a05e1717b46c4c72fa5886919
 
 class World {
-    World(mutationChance, foodSpawnFrequency) {
+    World(mutationChance, ) {
 
     }
 }
@@ -18,31 +15,38 @@ class Population {
         this.herbivoreAmount = herbivoreAmount;
         this.carnivoreAmount = carnivoreAmount;
         this.boardSize = boardSize;
-<<<<<<< HEAD
+        this.herbivores = []
+        for (let index = 0; index < herbivoreAmount; index++) {
+            //Create new herbivore
+            herbivore = new Herbivore()
+        }
     }
     
     draw() { 
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
         //Draw herbivores as spot
-        for (let herbivore in this.Herbivores){
+        for (let herbivore in this.herbivores){
             ctx.beginPath();
             ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
-            ctx.fillStyle = "brown";
+            ctx.fillStyle = "brown"; //Fix random
             ctx.fill();
-        }
-    }
-}
-=======
->>>>>>> 0111da55b753e86a05e1717b46c4c72fa5886919
-
-        this.herbivores = []
-        for (let index = 0; index < herbivoreAmount; index++) {
-            //Create new herbivore
-            herbivore = new Herbivore()
-
             
         }
+
+        //Draw carnivores
+        for (let carnivore in this.carnivores){
+            ctx.beginPath();
+            ctx.arc(carnivore.fixed,carnivore.y,carnivore.size,0,2*Math.PI);
+            ctx.fillStyle = "brown"; //Fix random
+            ctx.fill();
+            for (let part in carnivore.parts){
+                ctx.lineTo(part[0],part[1]);
+            }
+
+                
+        }
+
     }
 }
 
@@ -52,12 +56,7 @@ class Food {
     }
 }
 
-<<<<<<< HEAD
-class Carnivore {
-    Carnivore(parts) {
-        Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
-=======
->>>>>>> 0111da55b753e86a05e1717b46c4c72fa5886919
+
 
 class Carnivore {
     Carnivore(parts) {
@@ -100,9 +99,7 @@ class Carnivore {
 
 class Herbivore {
     Herbivore() {
-<<<<<<< HEAD
-        Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
-=======
+
         this.x = 0;
         this.y = 0;
         this.foodType = "herbivore";
@@ -123,17 +120,12 @@ class Herbivore {
         this.speed *= Math.random();
         this.size *= Math.random();
         this.offspringPerBirth *= Math.random();
->>>>>>> 0111da55b753e86a05e1717b46c4c72fa5886919
+
     }
 }
 
 
-<<<<<<< HEAD
-function runSimulation(creatures) {
 
-}
-
-=======
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -143,4 +135,3 @@ function getRandomColor() {
     }
     return color;
   }
->>>>>>> 0111da55b753e86a05e1717b46c4c72fa5886919
