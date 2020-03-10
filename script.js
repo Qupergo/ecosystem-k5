@@ -23,10 +23,11 @@ class Population {
     }
     
     draw() { 
+        console.log("draw");
         ctx.clearRect(0,0,canvas.width,canvas.height);
-
         //Draw herbivores as spot
         for (let herbivore in this.herbivores){
+            console.log(herbivore.x + " " + herbivore.y);
             ctx.beginPath();
             ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
             ctx.fillStyle = "brown"; //Fix random
@@ -40,9 +41,11 @@ class Population {
             ctx.arc(carnivore.fixed,carnivore.y,carnivore.size,0,2*Math.PI);
             ctx.fillStyle = "brown"; //Fix random
             ctx.fill();
+            ctx.moveTo(carnivore.x,carnivore.y);
             for (let part in carnivore.parts){
                 ctx.lineTo(part[0],part[1]);
             }
+            ctx.stroke();
 
                 
         }
@@ -100,8 +103,8 @@ class Carnivore {
 class Herbivore {
     Herbivore() {
 
-        this.x = 0;
-        this.y = 0;
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
         this.foodType = "herbivore";
 
         //Max values
@@ -135,3 +138,7 @@ function getRandomColor() {
     }
     return color;
   }
+
+  let pop = new Population(100,0,0);
+  console.log(pop);
+  pop.draw();
