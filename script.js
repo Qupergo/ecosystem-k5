@@ -1,3 +1,6 @@
+const canvas = document.querySelector("#EcosystemCanvas");
+let ctx = canvas.getContext("2d");
+
 class World {
     World(mutationChance, ) {
 
@@ -8,6 +11,18 @@ class Population {
     Population(creatureAmount, boardSize) {
         this.creatureAmount = creatureAmount;
         this.boardSize = boardSize;
+    }
+    
+    draw() { 
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        //Draw herbivores as spot
+        for (let herbivore in this.Herbivores){
+            ctx.beginPath();
+            ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
+            ctx.fillStyle = "brown";
+            ctx.fill();
+        }
     }
 }
 
@@ -31,8 +46,8 @@ class Creature {
     }
 }
 
-class Herbivore {
-    Herbivore(parts) {
+class Carnivore {
+    Carnivore(parts) {
         Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
 
         this.parts = parts
@@ -51,8 +66,8 @@ class Herbivore {
     }
 }
 
-class Carnivore {
-    Carnviore() {
+class Herbivore {
+    Herbivore() {
         Creature.call(this, energy, foodType, maxEnergy, currrentEnergy, perceptionFieldDistance, speed, size);
     }
 
@@ -64,10 +79,6 @@ function prepareSimulation() {
 }
 
 function runSimulation(creatures) {
-
-}
-
-function draw() {
 
 }
 
