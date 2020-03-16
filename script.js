@@ -3,7 +3,7 @@ let ctx = canvas.getContext("2d");
 
 
 class World {
-    World(mutationChance, foodSpawnFrequency, boardSize) {
+    constructor(mutationChance, foodSpawnFrequency, boardSize) {
         this.mutationChance = mutationChance;
         this.foodSpawnFrequency = foodSpawnFrequency;
         this.boardSize = boardSize;
@@ -13,19 +13,16 @@ class World {
 
 
 class Population {
-    Population(herbivoreAmount, carnivoreAmount) {
+    constructor (herbivoreAmount, carnivoreAmount) {
         this.herbivoreAmount = herbivoreAmount;
         this.carnivoreAmount = carnivoreAmount;
-        this.boardSize = boardSize;
-
         //Create herbivores
         this.herbivores = [];
         for (let index = 0; index < herbivoreAmount; index++) {
             //Create new herbivore
-            herbivore = new Herbivore();
+            let herbivore = new Herbivore();
             this.herbivores.push(herbivore);
         }
-
         //Create carnivores
         this.carnivores = [];
         for (let index = 0; index < carnivoreAmount; index++) {
@@ -84,7 +81,7 @@ class Population {
 }
 
 class Food {
-    Food() {
+    4onstructor() {
         this.givenEnergy = 12;
     }
 }
@@ -92,7 +89,7 @@ class Food {
 
 
 class Carnivore {
-    Carnivore(parts) {
+    constructor(parts) {
         this.x = 0;
         this.y = 0;
         this.foodType = "carnivore";
@@ -131,7 +128,7 @@ class Carnivore {
 }
 
 class Herbivore {
-    Herbivore() {
+    constructor() {
 
         this.x = Math.random()*canvas.width;
         this.y = Math.random()*canvas.height;
