@@ -27,8 +27,17 @@ class Population {
         this.carnivores = [];
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
-            carnivore = new Carnivore();
-            this.carnivores.push(herbivore);
+            let carnivore = new Carnivore( 
+                [
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height],
+                    [Math.random()*canvas.width, Math.random()*canvas.height]
+                ]);
+            this.carnivores.push(carnivore);
         }
     }
 
@@ -51,27 +60,52 @@ class Population {
 
     draw() { 
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        console.log("draw");
+        console.log(this.herbivores);
+        console.log(this.carnivores);
 
         //Draw herbivores as spot
-        for (let herbivore in this.herbivores){
+        for (let i = 0; i < this.herbivores.length; i++){
+            const herbivore = this.herbivores[i];
             ctx.beginPath();
-            ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
+            ctx.arc(herbivore.x,herbivore.y,herbivore.size*10,0,2*Math.PI);
             ctx.fillStyle = herbivore.color;
             ctx.fill();
             
         }
 
         //Draw carnivores
-        for (let carnivore in this.carnivores){
+        for (let i = 0; i < this.carnivores.length; i++){
+            const carnivore = this.carnivores[i];
             ctx.beginPath();
-            ctx.arc(carnivore.fixed,carnivore.y,carnivore.size,0,2*Math.PI);
+            //Draw head
+            ctx.arc(carnivore.x,carnivore.y,carnivore.size*10,0,2*Math.PI);
             ctx.fillStyle = carnivore.color;
+            ctx.strokeStyle = carnivore.color;
+            ctx.lineWidth = carnivore.size*8;
             ctx.fill();
+            ctx.closePath();
+            //Draw body
+            ctx.beginPath();
             ctx.moveTo(carnivore.x,carnivore.y);
-            for (let part in carnivore.parts){
-                ctx.lineTo(part[0],part[1]);
+            for (let h = 0; h < carnivore.parts.length-1; h++){
+                const part = carnivore.parts[h];
+                const nextPart = carnivore.parts[h+1];
+                //Draw point
+                ctx.arc(part[0],part[1],4,0,2*Math.PI);
+                //Find midpoint between this and next part
+                ctx.moveTo(part[0],part[1]);
+                let mid_x = (part[0]+nextPart[0])/2;
+                let mid_y = (part[1]+nextPart[1])/2;
+                let control_x1 = (mid_x + part[0])/2;
+                let control_y1 = (mid_y + part[1])/2;
+                let control_x2 = (mid_x + nextPart[0])/2;
+                let control_y2 = (mid_y + nextPart[1])/2;
+                console.log(mid_x +" " + mid_y);
+                ctx.quadraticCurveTo(mid_x,mid_y,nextPart[0],nextPart[1]);
             }
             ctx.stroke();
+            ctx.closePath();
 
                 
         }
@@ -89,8 +123,8 @@ class Food {
 
 class Carnivore {
     constructor(parts) {
-        this.x = 0;
-        this.y = 0;
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
         this.foodType = "carnivore";
         this.parts = parts
 
@@ -129,8 +163,8 @@ class Carnivore {
 class Herbivore {
     constructor() {
 
-        this.x = 0;
-        this.y = 0;
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
         this.foodType = "herbivore";
 
         //Max values
@@ -165,7 +199,10 @@ function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
+}
+
+let popis = new Population(0,1);
+popis.draw();
