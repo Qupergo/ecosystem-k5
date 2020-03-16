@@ -35,7 +35,7 @@ class Population {
     makeMoves() {
         for (let index = 0; index < this.carnivores.length; index++) {
             const creature = this.carnivores[index];
-            creature.move()
+            creature.move() 
             
         }
 
@@ -50,11 +50,10 @@ class Population {
     
 
     draw() { 
-        console.log("draw");
         ctx.clearRect(0,0,canvas.width,canvas.height);
+
         //Draw herbivores as spot
         for (let herbivore in this.herbivores){
-            console.log(herbivore.x + " " + herbivore.y);
             ctx.beginPath();
             ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
             ctx.fillStyle = "brown"; //Fix random
@@ -81,7 +80,7 @@ class Population {
 }
 
 class Food {
-    4onstructor() {
+    constructor() {
         this.givenEnergy = 12;
     }
 }
@@ -130,8 +129,8 @@ class Carnivore {
 class Herbivore {
     constructor() {
 
-        this.x = Math.random()*canvas.width;
-        this.y = Math.random()*canvas.height;
+        this.x = 0;
+        this.y = 0;
         this.foodType = "herbivore";
 
         //Max values
@@ -170,7 +169,3 @@ function getRandomColor() {
     }
     return color;
   }
-
-  let pop = new Population(100,0,0);
-  console.log(pop);
-  pop.draw();
