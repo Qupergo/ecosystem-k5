@@ -45,6 +45,10 @@ export default class Population {
                 distance = Math.sqrt(currentFood.x*currentFood.x + currentFood.y*currentFood.y);
 
                 if (distance < creature.perceptionFieldDistance) {
+                    if (creature.energy/creature.maxEnergy < .7) {
+                        // Wants to take food
+                        directionVector = []
+                    }
                     // Found food
                 }
             }
@@ -59,15 +63,16 @@ export default class Population {
             }
 
             for (let index = 0; index < this.carnivores.length; index++) {
-                const carnivore = this.carnivores[index];
+                const carnivore = this.carnivores[index]; 
                 distance = Math.sqrt(carnivore.x*carnivore.x + carnivore.y*carnivore.y);
 
                 if (distance < creature.perceptionFieldDistance) {
                     // Found danger
-                }                
+                }
             }
 
-            creature.move() 
+            creature.move();
+            creature.energy -= 1;
             
         }
 
