@@ -2,8 +2,8 @@ export default class Creature {
     constructor(foodType) {
         this.foodType = foodType;
 
-        this.x = 0;
-        this.y = 0;
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
         this.parts = []
 
         //Max values
