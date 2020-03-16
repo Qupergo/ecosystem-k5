@@ -59,7 +59,7 @@ class Population {
         for (let herbivore in this.herbivores){
             ctx.beginPath();
             ctx.arc(herbivore.fixed,herbivore.y,herbivore.size,0,2*Math.PI);
-            ctx.fillStyle = "brown"; //Fix random
+            ctx.fillStyle = herbivore.color;
             ctx.fill();
             
         }
@@ -68,7 +68,7 @@ class Population {
         for (let carnivore in this.carnivores){
             ctx.beginPath();
             ctx.arc(carnivore.fixed,carnivore.y,carnivore.size,0,2*Math.PI);
-            ctx.fillStyle = "brown"; //Fix random
+            ctx.fillStyle = carnivore.color;
             ctx.fill();
             ctx.moveTo(carnivore.x,carnivore.y);
             for (let part in carnivore.parts){
