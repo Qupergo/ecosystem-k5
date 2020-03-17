@@ -1,5 +1,5 @@
-import Creature from "./creatures";
-import Food from "./food";
+import Creature from "./creatures.js";
+import Food from "./food.js";
 
 
 export default class Population {
@@ -10,7 +10,7 @@ export default class Population {
 
         this.maxFood = herbivoreAmount;
         this.food = [];
-        for (let index = 0; index < maxFood; index++) {
+        for (let index = 0; index < this.maxFood; index++) {
             if (Math.random() < foodSpawnFrequency) {
                 this.food.push(new Food())
             }
@@ -145,4 +145,5 @@ export default class Population {
 
                 
         }
+    }
 }

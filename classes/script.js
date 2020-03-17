@@ -1,9 +1,5 @@
-import World from "./world"
-import Population from "./population";
-
-const canvas = document.querySelector("#EcosystemCanvas");
-let ctx = canvas.getContext("2d");
-
+import World from "./world.js";
+import Population from "./population.js";
 
 let popis = new Population(10,10);
 popis.draw();
