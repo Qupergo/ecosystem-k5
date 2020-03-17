@@ -1,6 +1,8 @@
 import Creature from "./creatures.js";
 import Food from "./food.js";
 
+const canvas = document.querySelector("#EcosystemCanvas");
+let ctx = canvas.getContext("2d");
 
 export default class Population {
     constructor (herbivoreAmount, carnivoreAmount, foodSpawnFrequency) {
@@ -21,15 +23,15 @@ export default class Population {
         this.herbivores = [];
         for (let index = 0; index < herbivoreAmount; index++) {
             //Create new herbivore
-            let herbivore = new Creature();
+            let herbivore = new Creature("herbivore");
             this.herbivores.push(herbivore);
         }
         //Create carnivores
         this.carnivores = [];
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
-            carnivore = new Carnivore();
-            this.carnivores.push(herbivore);
+            this.carnivore = new Creature("carnivore");
+            this.carnivores.push(this.carnivore);
         }
         
     }
