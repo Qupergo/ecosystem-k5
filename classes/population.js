@@ -26,6 +26,7 @@ export default class Population {
             let herbivore = new Creature("herbivore");
             this.herbivores.push(herbivore);
         }
+
         //Create carnivores
         this.carnivores = [];
         for (let index = 0; index < carnivoreAmount; index++) {
@@ -41,7 +42,6 @@ export default class Population {
 
             this.carnivores.push(carnivore);
         }
-        
     }
 
     makeMoves() {
@@ -58,9 +58,13 @@ export default class Population {
                
                 // Found close food
                 if (distance < creature.perceptionFieldDistance) {
-                    if (creature.energy/creature.maxEnergy < .7) {
+                    // If energy is below foodThreshold
+                    if (creature.energy/creature.maxEnergy <= creature.foodThreshold) {
                         // Wants to take food
-                        directionVector = []
+                        x_dist = Math.abs(creature.x - currentFood.x);
+                        y_dist = Math.abs(creature.y - currentFood.y);
+                        hypotenuse = Math.sqrt(x_dist*x_dist + y_dist*y_dist);
+                        directionVector = [x_dist/hypotenuse, y_dist/hypotenuse]
                     }
                 }
             }
@@ -71,6 +75,14 @@ export default class Population {
 
                 if (distance < creature.perceptionFieldDistance) {
                     // Found potential mate
+                    // If energy is above foodThreshold
+                    if (creature.energy/creature.maxEnergy > creature.foodThreshold) {
+
+                        x_dist = Math.abs(creature.x - herbivore.x);
+                        y_dist = Math.abs(creature.y - herbivore.y);
+                        hypotenuse = Math.sqrt(x_dist*x_dist + y_dist*y_dist);
+                        directionVector = [x_dist/hypotenuse, y_dist/hypotenuse]
+                    }
                 }
             }
 
@@ -80,18 +92,24 @@ export default class Population {
 
                 if (distance < creature.perceptionFieldDistance) {
                     // Found danger
+                    // If energy is above dangerThreshold
+                    if (creature.energy/creature.maxEnergy > creature.dangerThreshold) {
+                        x_dist = Math.abs(creature.x - carnivore.x);
+                        y_dist = Math.abs(creature.y - carnivore.y);
+                        hypotenuse = Math.sqrt(x_dist*x_dist + y_dist*y_dist);
+                        directionVector = [x_dist/hypotenuse, y_dist/hypotenuse]
+                    }
                 }
             }
 
-            creature.move();
-            creature.energy -= 1;
-            
+            creature.move(directionVector*creature.speed);
+            creature.energy -= 1;            
         }
 
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const creature = this.herbivores[index];
-            creature.move()
-            
+        for (let index = 0; index < this.carnviores.length; index++) {
+            const creature = this.carnivores[index];
+            directionVector = [];
+            creature.move();
         }
 
 
