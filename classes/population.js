@@ -47,8 +47,8 @@ export default class Population {
     makeMoves() {
         let directionVector = []
         
-        for (let index = 0; index < this.carnivores.length; index++) {
-            const creature = this.carnivores[index];
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const creature = this.herbivores[index];
 
             // Find direction to move
             for (let index = 0; index < food.length; index++) {
@@ -109,7 +109,44 @@ export default class Population {
         for (let index = 0; index < this.carnviores.length; index++) {
             const creature = this.carnivores[index];
             directionVector = [];
-            creature.move();
+
+            // Find close herbivores to eat
+            for (let index = 0; index < this.herbivores.length; index++) {
+                const currentFood = this.herbivores[i];
+
+                distance = Math.sqrt(currentFood.x*currentFood.x + currentFood.y*currentFood.y);
+               
+                // Found close food
+                if (distance < creature.perceptionFieldDistance) {
+                    // If energy is below foodThreshold
+                    if (creature.energy/creature.maxEnergy <= creature.foodThreshold) {
+                        // Wants to take food
+                        x_dist = Math.abs(creature.x - currentFood.x);
+                        y_dist = Math.abs(creature.y - currentFood.y);
+                        hypotenuse = Math.sqrt(x_dist*x_dist + y_dist*y_dist);
+                        directionVector = [x_dist/hypotenuse, y_dist/hypotenuse]
+                    }
+                }
+            }
+
+            for (let index = 0; index < this.carnivores.length; index++) {
+                const potentialMate = this.carnivores[index];
+                distance = Math.sqrt(potentialMate.x*potentialMate.x + potentialMate.y*potentialMate.y);
+
+                if (distance < creature.perceptionFieldDistance) {
+                    // Found potential mate
+                    // If energy is above foodThreshold
+                    if (creature.energy/creature.maxEnergy > creature.foodThreshold) {
+
+                        x_dist = Math.abs(creature.x - potentialMate.x);
+                        y_dist = Math.abs(creature.y - potentialMate.y);
+                        hypotenuse = Math.sqrt(x_dist*x_dist + y_dist*y_dist);
+                        directionVector = [x_dist/hypotenuse, y_dist/hypotenuse]
+                    }
+                }
+            }
+
+            creature.move(directionVector);
         }
 
 
