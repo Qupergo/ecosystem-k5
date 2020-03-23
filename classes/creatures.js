@@ -15,14 +15,19 @@ export default class Creature {
         this.maxPerceptionFieldDistance = 50;
         this.maxSpeed = 10;
         this.maxSize = 2;
+        this.maxFoodThreshold = 1;
+        this.maxDangerThreshold = 1;
+
         this.color = getRandomColor();
 
         //Randomize values
         this.perceptionFieldDistance = this.maxPerceptionFieldDistance*Math.random();
         this.speed = this.maxSpeed*Math.random();
         this.size = this.maxSize*Math.random();
+        this.foodThreshold = this.maxFoodThreshold*Math.random();
+        this.dangerThreshold = this.maxDangerThreshold*Math.random();
 
-        this.genes = {"perception":this.perceptionFieldDistance, "speed":this.speed, "size":this.size, "color":this.color}
+        this.genes = {"perception":this.perceptionFieldDistance, "speed":this.speed, "size":this.size, "color":this.color, "foodThreshold":this.foodThreshold, "dangerThreshold":this.dangerThreshold};
 
 
     }
