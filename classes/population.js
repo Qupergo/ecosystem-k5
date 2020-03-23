@@ -31,18 +31,22 @@ export default class Population {
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
             let carnivore = new Creature("carnivore");
-            carnivore.parts[ //funkar inte *****************************************************************************
-                [Math.random()*canvas.width,Math.random()*canvas.height],
-                [Math.random()*canvas.width,Math.random()*canvas.height],
-                [Math.random()*canvas.width,Math.random()*canvas.height],
-                [Math.random()*canvas.width,Math.random()*canvas.height]
-            ]
+
+            carnivore.parts = [
+                [Math.random()*canvas.width, Math.random()*canvas.height],
+                [Math.random()*canvas.width, Math.random()*canvas.height],
+                [Math.random()*canvas.width, Math.random()*canvas.height],
+                [Math.random()*canvas.width, Math.random()*canvas.height]
+            ];
+
             this.carnivores.push(carnivore);
         }
         
     }
 
     makeMoves() {
+        let directionVector = []
+        
         for (let index = 0; index < this.carnivores.length; index++) {
             const creature = this.carnivores[index];
 
@@ -51,13 +55,13 @@ export default class Population {
                 const currentFood = food[index];
 
                 distance = Math.sqrt(currentFood.x*currentFood.x + currentFood.y*currentFood.y);
-
+               
+                // Found close food
                 if (distance < creature.perceptionFieldDistance) {
                     if (creature.energy/creature.maxEnergy < .7) {
                         // Wants to take food
                         directionVector = []
                     }
-                    // Found food
                 }
             }
 

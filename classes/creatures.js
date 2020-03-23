@@ -23,8 +23,6 @@ export default class Creature {
         this.size = this.maxSize*Math.random();
 
         this.genes = {"perception":this.perceptionFieldDistance, "speed":this.speed, "size":this.size, "color":this.color}
-
-
     }
 
     move(directionVector) {
