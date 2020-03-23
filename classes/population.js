@@ -31,8 +31,14 @@ export default class Population {
         this.carnivores = [];
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
-            this.carnivore = new Creature("carnivore");
-            this.carnivores.push(this.carnivore);
+            let carnivore = new Creature("carnivore");
+            carnivore.parts[ //funkar inte *****************************************************************************
+                [Math.random()*canvas.width,Math.random()*canvas.height],
+                [Math.random()*canvas.width,Math.random()*canvas.height],
+                [Math.random()*canvas.width,Math.random()*canvas.height],
+                [Math.random()*canvas.width,Math.random()*canvas.height]
+            ]
+            this.carnivores.push(carnivore);
         }
     }
 
@@ -132,6 +138,7 @@ export default class Population {
 
         //Draw carnivores
         for (let i = 0; i < this.carnivores.length; i++){
+            console.log(this.carnivores.length);
             const carnivore = this.carnivores[i];
             ctx.beginPath();
             //Draw head
@@ -147,18 +154,34 @@ export default class Population {
             for (let h = 0; h < carnivore.parts.length-1; h++){
                 const part = carnivore.parts[h];
                 const nextPart = carnivore.parts[h+1];
+                if (h == carnivore.parts.length-1) {
+                    const nextPart = [carnivore.x,carnivore.y];
+                }
+                else if (h == carnivore.parts.length-2){
+                    const nextNextPart = [carnivore.x,carnivore.y];
+                }
+                
+
                 //Draw point
                 ctx.arc(part[0],part[1],4,0,2*Math.PI);
                 //Find midpoint between this and next part
-                ctx.moveTo(part[0],part[1]);
-                let mid_x = (part[0]+nextPart[0])/2;
-                let mid_y = (part[1]+nextPart[1])/2;
-                let control_x1 = (mid_x + part[0])/2;
-                let control_y1 = (mid_y + part[1])/2;
-                let control_x2 = (mid_x + nextPart[0])/2;
-                let control_y2 = (mid_y + nextPart[1])/2;
-                console.log(mid_x +" " + mid_y);
-                ctx.quadraticCurveTo(mid_x,mid_y,nextPart[0],nextPart[1]);
+                let mid_x1 = (part[0] + nextPart[0]) / 2;
+                let mid_y1 = (part[1] + nextPart[1]) / 2;
+                //Find midpoint between next part and the part after
+                if (h == carnivore.parts.length-1) {
+                    console.log("last part before head")
+                    //If it's the last one 
+                    let mid_x2 = (carnivore.x + mid_x1) / 2;
+                    let mid_y2 = (carnivore.y + mid_y1) / 2;
+                } 
+                else {
+                    let mid_x2 = (nextPart[0] + nextNextPart[0]) / 2;
+                    let mid_y2 = (nextPart[1] + nextNextPart[1]) / 2;
+                }
+
+                ctx.moveTo(mid_x1,mid_y1);
+                ctx.quadraticCurveTo(nextPart[0], nextPart[1], mid_x2, mid_x2);
+                ctx.stroke();
             }
             ctx.stroke();
             ctx.closePath();
