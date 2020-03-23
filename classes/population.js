@@ -32,12 +32,14 @@ export default class Population {
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
             let carnivore = new Creature("carnivore");
-
+            let rand = Math.random();
             carnivore.parts = [
-                [Math.random()*canvas.width, Math.random()*canvas.height],
-                [Math.random()*canvas.width, Math.random()*canvas.height],
-                [Math.random()*canvas.width, Math.random()*canvas.height],
-                [Math.random()*canvas.width, Math.random()*canvas.height]
+                [this.x-rand*50,this.y-rand*50],
+                [this.x-rand*60,this.y-rand*60],
+                [this.x-rand*70,this.y-rand*70],
+                [this.x-rand*80,this.y-rand*80],
+                [this.x-rand*50,this.y-rand*50],
+                [this.x-rand*50,this.y-rand*50],
             ];
 
             this.carnivores.push(carnivore);

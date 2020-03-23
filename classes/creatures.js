@@ -33,22 +33,16 @@ export default class Creature {
     }
 
     move(directionVector) {
-        if (this.foodType == "carnviore") {
+        if (this.foodType == "carnivore") {
             //Insert a copy of the head at position 1
-            this.parts.splice(1, 0, [parts[0][0], parts[0][1]]);
-
-            //Move head forward
-            this.parts[0][0] += directionVector[0];
-            this.parts[0][1] += directionVector[1];
+            this.parts.splice(this.parts.length-1, 0, [this.x, this.y]);
 
             //Remove end of tail
-            this.parts.pop();
+            this.parts.splice(0,1);
         }
+        this.x += directionVector[0];
+        this.y += directionVector[1];
 
-        else if (this.foodType == "herbivore") {
-            this.x += directionVector[0];
-            this.y += directionVector[1];
-        }
     }
 
     crossover(otherParent) {
