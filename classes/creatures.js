@@ -34,15 +34,15 @@ export default class Creature {
 
     move(directionVector) {
         if (this.foodType == "carnivore") {
-            //Insert a copy of the head at position 1
+            //Insert a copy of the head at end
             this.parts.splice(this.parts.length-1, 0, [this.x, this.y]);
 
             //Remove end of tail
-            this.parts.splice(0,1);
+            this.parts.shift();
         }
         this.x += directionVector[0];
         this.y += directionVector[1];
-
+        // this.parts.splice(this.parts.length-1, 0, [this.x, this.y]);
     }
 
     crossover(otherParent) {
