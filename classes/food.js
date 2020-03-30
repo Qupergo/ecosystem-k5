@@ -1,6 +1,3 @@
-
-
-
 const canvas = document.querySelector("#EcosystemCanvas");
 
 export default class Food {

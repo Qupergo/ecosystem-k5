@@ -231,5 +231,14 @@ export default class Population {
             ctx.stroke();
             ctx.closePath();
         }
+
+        //Draw Food
+        for (let i = 0; i < this.food.length; i++){
+            ctx.fillStyle = "brown";
+            ctx.beginPath();
+            ctx.arc(carnivore.parts[h][0], carnivore.parts[h][1], 4 * this.food[i].givenEnergy, 0, 2 * Math.PI);
+            ctx.closePath()
+            ctx.fill();
+        }
     }
 }
