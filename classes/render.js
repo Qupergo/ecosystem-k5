@@ -3,11 +3,6 @@ export default class render {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.population = population;
-        addEventListener("wheel", event => {
-            const delta = 1 + Math.sign(event.deltaY)*0.1
-           
-            this.ctx.scale(delta,delta,this.canvas.width/2,this.canvas.height/2);
-        });
     }
 
     draw() {
