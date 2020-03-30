@@ -9,7 +9,7 @@ let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
 renderer.draw();
 
 function doStuff() {
-    popis.makeMoves();
+    popis.makeMoves().call(this);
     renderer.draw()
 }
 

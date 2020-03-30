@@ -11,7 +11,6 @@ export default class render {
     }
 
     draw() {
-        console.log("draw");
         this.ctx.clearRect(0, 0, 10000, 10000);
 
         //Draw herbivores as spot
