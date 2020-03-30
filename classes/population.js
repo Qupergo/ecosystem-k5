@@ -165,6 +165,8 @@ export default class Population {
         }
 
         this.draw();
+
+        
     }
 
 
