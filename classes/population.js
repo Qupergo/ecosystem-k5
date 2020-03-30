@@ -33,7 +33,6 @@ export default class Population {
             //Create new carnivore
             let carnivore = new Creature("carnivore");
             let rand = Math.random();
-            console.log
             carnivore.parts = [
                 [carnivore.x - rand * 50, carnivore.y - rand * 50],
                 [carnivore.x - rand * 50, carnivore.y - rand * 50],
@@ -44,8 +43,6 @@ export default class Population {
                 [carnivore.x - rand * 50, carnivore.y - rand * 50],
                 [carnivore.x - rand * 50, carnivore.y - rand * 50]
             ];
-            console.log("Parts:");
-            console.log(carnivore.parts);
 
             this.carnivores.push(carnivore);
         }
@@ -166,13 +163,12 @@ export default class Population {
 
         this.draw();
 
-        
+
     }
 
 
     draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        console.log("draw");
 
         //Draw herbivores as spot
         for (let i = 0; i < this.herbivores.length; i++) {
@@ -187,8 +183,6 @@ export default class Population {
         //Draw carnivores
         for (let i = 0; i < this.carnivores.length; i++) {
             const carnivore = this.carnivores[i];
-            console.log("Parts:");
-            console.log(carnivore.parts);
             ctx.beginPath();
             //Draw head
             ctx.arc(carnivore.x, carnivore.y, carnivore.size * 5, 0, 2 * Math.PI);
@@ -198,12 +192,12 @@ export default class Population {
             ctx.fill();
             ctx.closePath();
             //Draw body
-            
+
 
             //Find Midpoints
-            ctx.fillStyle="red";
+            ctx.fillStyle = "red";
             let midparts = [];
-            for (let h = 0; h < carnivore.parts.length-1; h++) {
+            for (let h = 0; h < carnivore.parts.length - 1; h++) {
                 const part = carnivore.parts[h];
                 const nextPart = carnivore.parts[h + 1];
                 let mid = {
@@ -218,23 +212,21 @@ export default class Population {
                 y: carnivore.y
             }
             midparts.push(mid);
-            console.log("Midparts:");
-            console.log(midparts);
             ctx.fillStyle = "blue";
-            for (let h = 0; h < carnivore.parts; h++){
+            for (let h = 0; h < carnivore.parts; h++) {
                 ctx.beginPath();
-                ctx.arc(carnivore.parts[h][0],carnivore.parts[h][1],4,0,2*Math.PI);
+                ctx.arc(carnivore.parts[h][0], carnivore.parts[h][1], 4, 0, 2 * Math.PI);
                 ctx.closePath()
                 ctx.fill();
             }
             //Draw quadratic curves between midpoints using the parts as controlpoints
             ctx.moveTo(carnivore.parts[0][0], carnivore.parts[0][1]);
             ctx.lineTo(midparts[0].x, midparts[0].y);
-            for (let h = 0; h < carnivore.parts.length-1; h++) {
+            for (let h = 0; h < carnivore.parts.length - 1; h++) {
                 const nextPart = carnivore.parts[h + 1];
                 ctx.quadraticCurveTo(nextPart[0], nextPart[1], midparts[h + 1].x, midparts[h + 1].y);
             }
-            ctx.quadraticCurveTo(carnivore.parts[carnivore.parts.length - 1][0],carnivore.parts[carnivore.parts.length - 1][1],carnivore.x,carnivore.y);
+            ctx.quadraticCurveTo(carnivore.parts[carnivore.parts.length - 1][0], carnivore.parts[carnivore.parts.length - 1][1], carnivore.x, carnivore.y);
             // ctx.lineTo(carnivore.x, carnivore.y);
             ctx.stroke();
             ctx.closePath();
