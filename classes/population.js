@@ -79,7 +79,7 @@ export default class Population {
                 let result = this.check(creature, carnivore, creature.dangerThreshold)
                 
                 if (result !== false)  {
-                    directionVector = result;
+                    directionVector = [-result[0], -result[1]];
                 }
             }
 
