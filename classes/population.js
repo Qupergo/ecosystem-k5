@@ -141,8 +141,8 @@ export default class Population {
             // If energy is above threshold
             if ((creature.energy / creature.maxEnergy) >= threshold) {
 
-                let x_dist = Math.abs(creature.x - other_object.x);
-                let y_dist = Math.abs(creature.y - other_object.y);
+                let x_dist = creature.x - other_object.x;
+                let y_dist = creature.y - other_object.y;
                 let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
                 if (moveTowards) {
                     directionVector = [x_dist / hypotenuse, y_dist / hypotenuse];
