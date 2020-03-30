@@ -1,9 +1,9 @@
 import World from "./world.js";
 import Population from "./population.js";
+import render from "./render.js";
 
 let popis = new Population(50,50);
-popis.draw();
-
+let rendererrer = new render(document.querySelector("#EcosystemCanvas"),popis);
 function MoveCarnivores() {
     console.log("step");
     for (let i = 0; i < popis.carnivores.length; i++){
@@ -12,7 +12,7 @@ function MoveCarnivores() {
         const herbivore = popis.herbivores[i];
         herbivore.move([(Math.random()*2-1)*30,(Math.random()*2-1)*30]);
     }
-    popis.draw();
+    rendererrer.draw();
 }
 
 setInterval(MoveCarnivores,100);
