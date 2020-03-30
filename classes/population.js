@@ -43,8 +43,6 @@ export default class Population {
                 [carnivore.x - rand * 50, carnivore.y - rand * 50],
                 [carnivore.x - rand * 50, carnivore.y - rand * 50]
             ];
-
-
             this.carnivores.push(carnivore);
         }
     }
@@ -86,7 +84,7 @@ export default class Population {
             }
 
             if (directionVector.equals([0,0])) {
-                directionVector = [100, 100]
+                directionVector = [(2*Math.random()-1)*5, (2*Math.random()-1)*5]
             }
             
             creature.move(directionVector, creature.speed);
@@ -105,6 +103,7 @@ export default class Population {
                 
                 if (result !== false)  {
                     directionVector = result;
+                    console.log("Carnivore found food")
                 }
             }
 
@@ -118,7 +117,7 @@ export default class Population {
             }
 
             if (directionVector.equals([0,0])) {
-                directionVector = [100, 100]
+                directionVector = [(2*Math.random()-1)*5, (2*Math.random()-1)*5]
             }
 
             creature.move(directionVector, creature.speed);

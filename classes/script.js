@@ -2,15 +2,15 @@ import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
 
-let popis = new Population(5,5);
+let popis = new Population(15,15);
 let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
 
 
 renderer.draw();
 
 function doStuff() {
-    popis.makeMoves().call(this);
-    renderer.draw()
+    popis.makeMoves();
+    renderer.draw();
 }
 
 setInterval(doStuff, 100);

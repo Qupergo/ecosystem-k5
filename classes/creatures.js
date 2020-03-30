@@ -42,7 +42,6 @@ export default class Creature {
         }
         this.x += directionVector[0] * speed;
         this.y += directionVector[1] * speed;
-        console.log(this.x)
     }
 
     crossover(otherParent) {
