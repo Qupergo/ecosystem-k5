@@ -12,7 +12,7 @@ export default class Creature {
         this.maxEnergy = 25;
 
         // Customizable max values
-        this.maxPerceptionFieldDistance = 50;
+        this.maxPerceptionFieldDistance = 500;
         this.maxSpeed = 10;
         this.maxSize = 2;
         this.maxFoodThreshold = 1;
@@ -32,7 +32,7 @@ export default class Creature {
 
     }
 
-    move(directionVector) {
+    move(directionVector, speed=1) {
         if (this.foodType == "carnivore") {
             //Insert a copy of the head at the end of the Array
             this.parts.splice(this.parts.length, 0, [this.x, this.y]);
@@ -40,8 +40,9 @@ export default class Creature {
             //Remove end of tail (Start of Array)
             this.parts.shift();
         }
-        this.x += directionVector[0];
-        this.y += directionVector[1];
+        this.x += directionVector[0] * speed;
+        this.y += directionVector[1] * speed;
+        console.log(this.x)
     }
 
     crossover(otherParent) {
