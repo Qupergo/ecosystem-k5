@@ -115,7 +115,7 @@ export default class Population {
                 const currentFood = this.herbivores[i];
 
                 distance = Math.sqrt(currentFood.x*currentFood.x + currentFood.y*currentFood.y);
-               
+
                 // Found close food
                 if (distance < creature.perceptionFieldDistance) {
                     // If energy is below foodThreshold
@@ -158,6 +158,8 @@ export default class Population {
         }
 
         this.draw();
+
+        
     }
     
 
