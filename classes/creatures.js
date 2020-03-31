@@ -6,19 +6,20 @@ export default class Creature {
         this.directionVector= [0,0];
 
         this.age = 0;
-        
+        this.maturationPeriod = 100;
+
         this.x = Math.random()*canvas.width;
         this.y = Math.random()*canvas.height;
         this.parts = []
 
         //Max values
-        this.energy = 25;
+        this.energy = 100;
         this.maxEnergy = 100;
 
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
-        this.maxSpeed = 10;
-        this.maxSize = 20;
+        this.maxSpeed = 20;
+        this.maxSize = 30;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 
@@ -48,16 +49,28 @@ export default class Creature {
 
     crossover(otherParent) {
         let children = [new Creature(this.foodType), new Creature(this.foodType)];
+
+        
+        // Oscar klaga inte, det fungerar
+
+        let mutated = new Creature(this.foodType);
+
         for ( let i = 0; i < 2; i++) {
-            children[i].perceptionFieldDistance = randomObject(this,otherParent).perceptionFieldDistance;
-            children[i].speed = randomObject(this,otherParent).speed;
-            children[i].size = randomObject(this,otherParent).size;
-            children[i].color = randomObject(this,otherParent).color;
-            children[i].foodThreshold = randomObject(this,otherParent).foodThreshold;
-            children[i].dangerThreshold = randomObject(this,otherParent).dangerThreshold;
-            children[i].x = this.x+Math.random();
-            children[i].y = this.y+Math.random();
+            children[i].perceptionFieldDistance = randomObject([this,otherParent,mutated],true).perceptionFieldDistance;
+            children[i].speed = randomObject([this,otherParent,mutated],true).speed;
+            children[i].size = randomObject([this,otherParent,mutated],true).size;
+            children[i].color = randomObject([this,otherParent,mutated],true).color;
+            children[i].foodThreshold = randomObject([this,otherParent,mutated],true).foodThreshold;
+            children[i].dangerThreshold = randomObject([this,otherParent,mutated],true).dangerThreshold;
+
+            //Add random to displace the child from the parent
+            children[i].x = this.x + Math.random();
+            children[i].y = this.y + Math.random();
+
+            children[i].energy = this.energy;
+
         }
+
         return children;
     }
 
@@ -65,11 +78,18 @@ export default class Creature {
 
 }
 
-function randomObject(a,b){
-    if (Math.random() <= 0.5){
-        return a;
+function randomObject(arr, lastIsMutation=false, mutationChance=0.1){
+    if (lastIsMutation) {
+        if (Math.random() < mutationChance) {
+            return arr[arr.length - 1]
+        }
+        return arr[Math.floor(Math.random()*(arr.length-1))];
     }
-    else return b;
+
+    else {
+        return arr[Math.floor(Math.random()*arr.length)];
+    }
+
 }
 
 function getRandomColor() {

@@ -2,7 +2,8 @@ import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
 
-let popis = new Population(200,0,0.1);
+let h1 = document.querySelector("#aliveCounter")
+let popis = new Population(400,0,0.01);
 let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
 
 
@@ -11,9 +12,11 @@ renderer.draw();
 function doStuff() {
     popis.makeMoves();
     renderer.draw();
+    h1.innerHTML = "Current Alive: " + (popis.carnivores.length + popis.herbivores.length);
+
 }
 
-setInterval(doStuff, 100);
+setInterval(doStuff, 0);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
