@@ -66,7 +66,7 @@ export default class Population {
             if (creature.energy/creature.maxEnergy > creature.foodThreshold){
                 let carnivore_distances = this.getDistanceList(creature,this.carnivores);
                 if (carnivore_distances.length >  0) {
-                    directionVector = this.getDirectionVector(creature, carnivore_distances[0]);
+                    directionVector = this.getDirectionVector(creature, carnivore_distances[0][1]);
                     potentialMates = true;
                 }
             }
@@ -74,7 +74,7 @@ export default class Population {
                 //Find prey
                 let herbivore_distances = this.getDistanceList(creature,this.herbivores);
                 if (herbivore_distances.length > 0) {
-                    directionVector = this.getDirectionVector(creature,herbivore_distances[0]);
+                    directionVector = this.getDirectionVector(creature,herbivore_distances[0][1]);
                 }
             }
             creature.move(directionVector, creature.speed);
@@ -85,8 +85,8 @@ export default class Population {
 
     
     getDirectionVector(creature, other_object, moveTowards=true) {
-        let x_dist = creature.x - other_object[1].x;
-        let y_dist = creature.y - other_object[1].y;
+        let x_dist = creature.x - other_object.x;
+        let y_dist = creature.y - other_object.y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
         
         let directionVector = [0, 0];
@@ -98,6 +98,7 @@ export default class Population {
         }
         if (isNaN(directionVector[0])){
             console.log("grej:");
+            console.log(creature);
             console.log(other_object);
             console.log(x_dist);
             console.log(y_dist);
@@ -107,14 +108,14 @@ export default class Population {
     }
 
     getDistanceList(creature, other_objects) {
-        let distances = []; 
+        let distances = [];
         for (let i = 0; i < other_objects.length; i++){
             let x_dist = creature.x - other_objects[i].x;
             let y_dist = creature.y - other_objects[i].y;
             let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
             //Checks if creature can see the other creature and that the distance is not 0
-            if (hypotenuse < creature.perceptionFieldDistance && hypotenuse > 0) { 
-                distances.push([hypotenuse,creature]);
+            if (hypotenuse < creature.perceptionFieldDistance && creature != other_objects[i]) {
+                distances.push([hypotenuse,other_objects[i]]);
             }
         }
         if (distances.length > 1) {
