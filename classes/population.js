@@ -133,10 +133,13 @@ export default class Population {
 
     
     check(creature, other_object, threshold, moveTowards=true) {
-        let distance = Math.sqrt(other_object.x * other_object.x + other_object.y * other_object.y);
+        let x_dist = creature.x - other_object.x;
+        let y_dist = creature.y - other_object.y;
+        let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+        console.log(hypotenuse);
         let directionVector = [0, 0];
 
-        if (distance < creature.perceptionFieldDistance) {
+        if (hypotenuse < creature.perceptionFieldDistance) {
             // Found object to interact with
             // If energy is above threshold
             if ((creature.energy / creature.maxEnergy) >= threshold) {
