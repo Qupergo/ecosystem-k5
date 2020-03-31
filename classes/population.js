@@ -55,31 +55,63 @@ export default class Population {
             // Check for food
             for (let index = 0; index < this.food.length; index++) {
                 const currentFood = creature.food[index];
+                let min_distance = Infinity;
 
-                let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
+                let x_dist = creature.x - currentFood.x;
+                let y_dist = creature.y - currentFood.y;
+                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
                 
-                if (result !== false)  {
-                    directionVector = result;
+                    if (result !== false)  {
+                        directionVector = result;
+                    }                
                 }
+
+
             }
 
-            // Check for potential mates
+            // Find closest potential mate
             for (let index = 0; index < this.herbivores.length; index++) {
                 const herbivore = this.herbivores[index];
-                let result = this.check(creature, herbivore, creature.foodThreshold)
+                let min_distance = Infinity;
+
+                if (creature.x == herbivore.x && creature.y == herbivore.y) {
+                    continue;
+                }
+
+                let x_dist = creature.x - herbivore.x;
+                let y_dist = creature.y - herbivore.y;
+                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    let result = this.check(creature, herbivore, 1 - creature.foodThreshold)
                 
-                if (result !== false)  {
-                    directionVector = result;
+                    if (result !== false)  {
+                        directionVector = result;
+                    }
                 }
             }
 
             // Check for danger
             for (let index = 0; index < this.carnivores.length; index++) {
                 const carnivore = this.carnivores[index];
-                let result = this.check(creature, carnivore, creature.dangerThreshold)
+                let min_distance = Infinity;
                 
-                if (result !== false)  {
-                    directionVector = [-result[0], -result[1]];
+                let x_dist = creature.x - carnivore.x;
+                let y_dist = creature.y - carnivore.y;
+                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    let result = this.check(creature, carnivore, creature.dangerThreshold)
+                
+                    if (result !== false)  {
+                        directionVector = result;
+                    }                
                 }
             }
 
@@ -99,20 +131,43 @@ export default class Population {
             // Find close herbivores to eat
             for (let j = 0; j < this.herbivores.length; j++) {
                 const currentFood = this.herbivores[j];
-                let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
+                let min_distance = Infinity;
+
+                let x_dist = creature.x - currentFood.x;
+                let y_dist = creature.y - currentFood.y;
+                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
                 
-                if (result !== false)  {
-                    directionVector = result;
-                    console.log("Carnivore found food")
+                    if (result !== false)  {
+                        directionVector = result;
+                    }                
                 }
             }
 
             // Find close carnivores for potential mating
             for (let k = 0; k < this.carnivores.length; k++) {
+                
                 const potentialMate = this.carnivores[k];
-                let result = this.check(creature, potentialMate, creature.foodThreshold)
-                if (result !== false)  {
-                    directionVector = result;
+                if (creature.x == potentialMate.x && creature.y == potentialMate.y) {
+                    continue;
+                }
+                
+                let min_distance = Infinity;
+
+                let x_dist = creature.x - potentialMate.x;
+                let y_dist = creature.y - potentialMate.y;
+                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    let result = this.check(creature, potentialMate, creature.foodThreshold)
+                
+                    if (result !== false)  {
+                        directionVector = result;
+                    }
                 }
             }
 
@@ -133,19 +188,23 @@ export default class Population {
 
     
     check(creature, other_object, threshold, moveTowards=true) {
-        let distance = Math.sqrt(other_object.x * other_object.x + other_object.y * other_object.y);
+        let x_dist = creature.x - other_object.x;
+        let y_dist = creature.y - other_object.y;
+        let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+        
         let directionVector = [0, 0];
 
-        if (distance < creature.perceptionFieldDistance) {
+        if (hypotenuse < creature.perceptionFieldDistance) {
             // Found object to interact with
             // If energy is above threshold
             if ((creature.energy / creature.maxEnergy) >= threshold) {
 
-                let x_dist = creature.x - other_object.x;
-                let y_dist = creature.y - other_object.y;
-                let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+                x_dist = creature.x - other_object.x;
+                y_dist = creature.y - other_object.y;
+                hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
                 if (moveTowards) {
                     directionVector = [x_dist / hypotenuse, y_dist / hypotenuse];
+
                 }
                 return directionVector;
             }
