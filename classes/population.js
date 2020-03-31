@@ -45,6 +45,7 @@ export default class Population {
     }
 
     makeMoves() {
+        //Herbivores
         for (let index = 0; index < this.herbivores.length; index++) {
             const creature = this.herbivores[index];
             let detectedDanger = false;
@@ -58,7 +59,6 @@ export default class Population {
                 }
             }
             //Find mates
-            //
             if (creature.energy/creature.maxEnergy > creature.foodThreshold && !detectedDanger){
                 creature.lookingForMate = true;
                 let mate_distances = this.getDistanceList(creature,this.herbivores);
@@ -71,8 +71,8 @@ export default class Population {
                             let children = creature.crossover(mate_distances[i][1]);
                             this.herbivores.push(children[0]);
                             this.herbivores.push(children[1]);
-                            creature.energy -= creature.maxEnergy/2;
-                            mate_distances[i][1].energy -= creature.maxEnergy/2;
+                            creature.energy -= 25;
+                            mate_distances[i][1].energy -= 25;
                             creature.lookingForMate = false;
                             mate_distances[i][1].lookingForMate = false;
                             break;
@@ -96,13 +96,15 @@ export default class Population {
                 }
             }
             creature.move(creature.directionVector, creature.speed);
-            creature.energy -= 0.1;
+            creature.energy -= 1;
 
             if (creature.energy <= 0) {
                 this.herbivores.remove(creature);
                 console.log("poof ded");
             }
         }
+
+        //Carnivores
         for (let index = 0; index < this.carnivores.length; index++){
             const creature = this.carnivores[index];
             let potentialMates = false;

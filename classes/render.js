@@ -21,7 +21,7 @@ export default class render {
         for (let i = 0; i < this.population.herbivores.length; i++) {
             const herbivore = this.population.herbivores[i];
             this.ctx.beginPath();
-            this.ctx.arc(herbivore.x, herbivore.y, herbivore.size * 10, 0, 2 * Math.PI);
+            this.ctx.arc(herbivore.x, herbivore.y, herbivore.size, 0, 2 * Math.PI);
             this.ctx.fillStyle = herbivore.color;
             this.ctx.fill();
 
@@ -32,7 +32,7 @@ export default class render {
             const carnivore = this.population.carnivores[i];
             this.ctx.beginPath();
             //Draw head
-            this.ctx.arc(carnivore.x, carnivore.y, carnivore.size * 5, 0, 2 * Math.PI);
+            this.ctx.arc(carnivore.x, carnivore.y, carnivore.size, 0, 2 * Math.PI);
             this.ctx.fillStyle = carnivore.color;
             this.ctx.strokeStyle = carnivore.color;
             this.ctx.lineWidth = carnivore.size * 8;

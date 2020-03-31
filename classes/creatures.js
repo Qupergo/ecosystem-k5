@@ -10,13 +10,13 @@ export default class Creature {
         this.parts = []
 
         //Max values
-        this.energy = 10;
+        this.energy = 25;
         this.maxEnergy = 100;
 
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
         this.maxSpeed = 10;
-        this.maxSize = 2;
+        this.maxSize = 20;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 
@@ -56,6 +56,7 @@ export default class Creature {
             children[i].x = this.x+Math.random();
             children[i].y = this.y+Math.random();
         }
+        console.log(children);
         return children;
     }
 

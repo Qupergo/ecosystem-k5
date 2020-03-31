@@ -2,7 +2,7 @@ import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
 
-let popis = new Population(200,200,0.1);
+let popis = new Population(200,0,0.1);
 let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
 
 
