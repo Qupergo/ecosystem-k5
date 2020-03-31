@@ -6,7 +6,10 @@ export default class render {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, 10000, 10000);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "lightgreen";
+        this.ctx.rect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx.fill();
         //Draw Food
         for (let i = 0; i < this.population.food.length; i++){
             const currentFood = this.population.food[i]
@@ -24,6 +27,9 @@ export default class render {
             this.ctx.arc(herbivore.x, herbivore.y, herbivore.size, 0, 2 * Math.PI);
             this.ctx.fillStyle = herbivore.color;
             this.ctx.fill();
+            this.ctx.strokeStyle = "hsl(0,0%," + ((herbivore.energy/herbivore.maxEnergy)*100) + "%)";
+            this.ctx.lineWidth = 5;
+            this.ctx.stroke();
 
         }
 
