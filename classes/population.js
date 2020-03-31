@@ -192,7 +192,6 @@ export default class Population {
         let y_dist = creature.y - other_object.y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
         
-        console.log(hypotenuse);
         let directionVector = [0, 0];
 
         if (hypotenuse < creature.perceptionFieldDistance) {
@@ -204,7 +203,7 @@ export default class Population {
                 y_dist = creature.y - other_object.y;
                 hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
                 if (moveTowards) {
-                    directionVector = [x_dist / hypotenuse, y_dist / hypotenuse];
+                    directionVector = [-x_dist / hypotenuse, -y_dist / hypotenuse];
 
                 }
                 return directionVector;
