@@ -97,10 +97,15 @@ export default class Population {
             }
             creature.move(creature.directionVector, creature.speed);
             creature.energy -= 1;
+            creature.age += 1;
+
 
             if (creature.energy <= 0) {
                 this.herbivores.remove(creature);
-                console.log("poof ded");
+            }
+
+            if (creature.age > 1000) {
+                this.herbivores.remove(creature);
             }
         }
 

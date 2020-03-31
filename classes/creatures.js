@@ -5,6 +5,8 @@ export default class Creature {
         this.lookingForMate = false;
         this.directionVector= [0,0];
 
+        this.age = 0;
+        
         this.x = Math.random()*canvas.width;
         this.y = Math.random()*canvas.height;
         this.parts = []
@@ -56,7 +58,6 @@ export default class Creature {
             children[i].x = this.x+Math.random();
             children[i].y = this.y+Math.random();
         }
-        console.log(children);
         return children;
     }
 
