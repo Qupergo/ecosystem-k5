@@ -52,163 +52,86 @@ export default class Population {
             const creature = this.herbivores[index];
             let directionVector = [0, 0]
 
-            // Check for food
-            for (let index = 0; index < this.food.length; index++) {
-                const currentFood = creature.food[index];
-                let min_distance = Infinity;
-
-                let x_dist = creature.x - currentFood.x;
-                let y_dist = creature.y - currentFood.y;
-                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
-                
-                    if (result !== false)  {
-                        directionVector = result;
-                    }                
-                }
-
-
-            }
-
-            // Find closest potential mate
-            for (let index = 0; index < this.herbivores.length; index++) {
-                const herbivore = this.herbivores[index];
-                let min_distance = Infinity;
-
-                if (creature.x == herbivore.x && creature.y == herbivore.y) {
-                    continue;
-                }
-
-                let x_dist = creature.x - herbivore.x;
-                let y_dist = creature.y - herbivore.y;
-                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    let result = this.check(creature, herbivore, 1 - creature.foodThreshold)
-                
-                    if (result !== false)  {
-                        directionVector = result;
-                    }
-                }
-            }
-
-            // Check for danger
-            for (let index = 0; index < this.carnivores.length; index++) {
-                const carnivore = this.carnivores[index];
-                let min_distance = Infinity;
-                
-                let x_dist = creature.x - carnivore.x;
-                let y_dist = creature.y - carnivore.y;
-                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    let result = this.check(creature, carnivore, creature.dangerThreshold)
-                
-                    if (result !== false)  {
-                        directionVector = result;
-                    }                
-                }
-            }
-
-            if (directionVector.equals([0,0])) {
-                directionVector = [(2*Math.random()-1)*5, (2*Math.random()-1)*5]
-            }
+            //Find threats
+            let carnivore_distances = this.getDistanceList(creature,this.carnivores);
             
             creature.move(directionVector, creature.speed);
             creature.energy -= 1;
         }
-
-
-        for (let index = 0; index < this.carnivores.length; index++) {
+        
+        for (let index = 0; index < this.carnivores.length; index++){
             const creature = this.carnivores[index];
             let directionVector = [0, 0];
-
-            // Find close herbivores to eat
-            for (let j = 0; j < this.herbivores.length; j++) {
-                const currentFood = this.herbivores[j];
-                let min_distance = Infinity;
-
-                let x_dist = creature.x - currentFood.x;
-                let y_dist = creature.y - currentFood.y;
-                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    let result = this.check(creature, currentFood, 1 - creature.foodThreshold)
-                
-                    if (result !== false)  {
-                        directionVector = result;
-                    }                
+            let potentialMates = false;
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold){
+                let carnivore_distances = this.getDistanceList(creature,this.carnivores);
+                if (carnivore_distances.length >  0) {
+                    directionVector = this.getDirectionVector(creature, carnivore_distances[0]);
+                    potentialMates = true;
                 }
             }
-
-            // Find close carnivores for potential mating
-            for (let k = 0; k < this.carnivores.length; k++) {
-                
-                const potentialMate = this.carnivores[k];
-                if (creature.x == potentialMate.x && creature.y == potentialMate.y) {
-                    continue;
-                }
-                
-                let min_distance = Infinity;
-
-                let x_dist = creature.x - potentialMate.x;
-                let y_dist = creature.y - potentialMate.y;
-                let distance = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    let result = this.check(creature, potentialMate, creature.foodThreshold)
-                
-                    if (result !== false)  {
-                        directionVector = result;
-                    }
+            if (potentialMates == false){
+                //Find prey
+                let herbivore_distances = this.getDistanceList(creature,this.herbivores);
+                if (herbivore_distances.length > 0) {
+                    directionVector = this.getDirectionVector(creature,herbivore_distances[0]);
                 }
             }
-
-            if (directionVector.equals([0,0])) {
-                directionVector = [(2*Math.random()-1)*5, (2*Math.random()-1)*5]
-            }
-
             creature.move(directionVector, creature.speed);
-        }
+            creature.energy -= 1;
 
-        // Spawn food
-        if (this.food.length < this.maxFood) {
-            if (this.foodSpawnFrequency > Math.random()) {
-                this.food.push(new Food())
-            }
         }
     }
 
     
-    check(creature, other_object, threshold, moveTowards=true) {
-        let x_dist = creature.x - other_object.x;
-        let y_dist = creature.y - other_object.y;
+    getDirectionVector(creature, other_object, moveTowards=true) {
+        let x_dist = creature.x - other_object[1].x;
+        let y_dist = creature.y - other_object[1].y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
         
         let directionVector = [0, 0];
+        if (moveTowards) {
+            directionVector = [-x_dist / hypotenuse, -y_dist / hypotenuse];
+        }
+        else {
+            directionVector = [x_dist / hypotenuse, y_dist / hypotenuse]
+        }
+        if (isNaN(directionVector[0])){
+            console.log("grej:");
+            console.log(other_object);
+            console.log(x_dist);
+            console.log(y_dist);
+            console.log(hypotenuse);
+        }
+        return directionVector;
+    }
 
-        if (hypotenuse < creature.perceptionFieldDistance) {
-            // Found object to interact with
-            // If energy is above threshold
-            if ((creature.energy / creature.maxEnergy) >= threshold) {
-
-                x_dist = creature.x - other_object.x;
-                y_dist = creature.y - other_object.y;
-                hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-                if (moveTowards) {
-                    directionVector = [-x_dist / hypotenuse, -y_dist / hypotenuse];
-
-                }
-                return directionVector;
+    getDistanceList(creature, other_objects) {
+        let distances = []; 
+        for (let i = 0; i < other_objects.length; i++){
+            let x_dist = creature.x - other_objects[i].x;
+            let y_dist = creature.y - other_objects[i].y;
+            let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+            //Checks if creature can see the other creature and that the distance is not 0
+            if (hypotenuse < creature.perceptionFieldDistance && hypotenuse > 0) { 
+                distances.push([hypotenuse,creature]);
             }
         }
-        return false;
+        if (distances.length > 0) {
+            distances.sort(compare);
+            return distances;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+function compare(x,y){
+    if (x[0] === y[0]) {
+        return 0;
+    }
+    else {
+        return (x[0] < y[0]) ? -1 : 1;
     }
 }
