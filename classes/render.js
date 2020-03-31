@@ -7,6 +7,15 @@ export default class render {
 
     draw() {
         this.ctx.clearRect(0, 0, 10000, 10000);
+        //Draw Food
+        for (let i = 0; i < this.population.food.length; i++){
+            const currentFood = this.population.food[i]
+            this.ctx.fillStyle = "brown";
+            this.ctx.beginPath();
+            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/5, 0, 2 * Math.PI);
+            this.ctx.closePath()
+            this.ctx.fill();
+        }
 
         //Draw herbivores as spot
         for (let i = 0; i < this.population.herbivores.length; i++) {
@@ -70,15 +79,7 @@ export default class render {
             this.ctx.closePath();
         }
 
-        //Draw Food
-        for (let i = 0; i < this.population.food.length; i++){
-            const currentFood = this.population.food[i]
-            this.ctx.fillStyle = "brown";
-            this.ctx.beginPath();
-            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/5, 0, 2 * Math.PI);
-            this.ctx.closePath()
-            this.ctx.fill();
-        }
+        
         
     }
 

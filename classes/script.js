@@ -2,7 +2,7 @@ import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
 
-let popis = new Population(15,15,0.1);
+let popis = new Population(200,200,0.1);
 let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
 
 
@@ -40,3 +40,14 @@ Array.prototype.equals = function (array) {
 }
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};

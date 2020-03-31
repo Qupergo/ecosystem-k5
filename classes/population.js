@@ -13,10 +13,7 @@ export default class Population {
         this.maxFood = herbivoreAmount;
         this.food = [];
         for (let index = 0; index < this.maxFood; index++) {
-            if (Math.random() < foodSpawnFrequency) {
-                this.food.push(new Food())
-            }
-
+            this.food.push(new Food())
         }
 
         //Create herbivores
@@ -50,62 +47,100 @@ export default class Population {
     makeMoves() {
         for (let index = 0; index < this.herbivores.length; index++) {
             const creature = this.herbivores[index];
-            let directionVector = [0, 0]
-            let potentialMates = false;
             let detectedDanger = false;
 
             //Find threats
-            if (true){
+            if (creature.energy/creature.maxEnergy > creature.dangerThreshold){
                 let predator_distances = this.getDistanceList(creature,this.carnivores);
                 if (predator_distances.length >  0) {
-                    directionVector = this.getDirectionVector(creature, predator_distances[0][1], false);
+                    creature.directionVector= this.getDirectionVector(creature, predator_distances[0][1], false);
                     detectedDanger = true;
                 }
             }
             //Find mates
-            if (creature.energy/creature.maxEnergy > creature.foodThreshold){
+            //
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold && !detectedDanger){
+                creature.lookingForMate = true;
                 let mate_distances = this.getDistanceList(creature,this.herbivores);
-                if (mate_distances.length >  0) {
-                    directionVector = this.getDirectionVector(creature, mate_distances[0][1]);
-                    potentialMates = true;
+                for (let i = 0; i < mate_distances.length; i++) {
+                    //Check if given consent
+                    if (mate_distances[i][1].lookingForMate) {
+                        creature.directionVector= this.getDirectionVector(creature, mate_distances[i][1]);
+                        //Check if collision
+                        if (this.checkCollision(creature,mate_distances[i][1])) {
+                            let children = creature.crossover(mate_distances[i][1]);
+                            this.herbivores.push(children[0]);
+                            this.herbivores.push(children[1]);
+                            creature.energy -= creature.maxEnergy/2;
+                            mate_distances[i][1].energy -= creature.maxEnergy/2;
+                            creature.lookingForMate = false;
+                            mate_distances[i][1].lookingForMate = false;
+                            break;
+                        }
+                    }
                 }
+            }
+            else {
+                creature.lookingForMate = false;
             }
 
             //Find food
-            if (!potentialMates && !detectedDanger){
-                //Find prey
+            if (!creature.lookingForMate && !detectedDanger){
                 let food_distances = this.getDistanceList(creature,this.food);
                 if (food_distances.length > 0) {
-                    directionVector = this.getDirectionVector(creature,food_distances[0][1]);
+                    creature.directionVector= this.getDirectionVector(creature,food_distances[0][1]);
+                    if (this.checkCollision(creature, food_distances[0][1])) {
+                        creature.energy = Math.min(creature.energy + food_distances[0][1].givenEnergy, creature.maxEnergy);
+                        this.food.remove(food_distances[0][1]);
+                    }
                 }
             }
-            creature.move(directionVector, creature.speed);
-            creature.energy -= 1;
+            creature.move(creature.directionVector, creature.speed);
+            creature.energy -= 0.1;
+
+            if (creature.energy <= 0) {
+                this.herbivores.remove(creature);
+                console.log("poof ded");
+            }
         }
-        
         for (let index = 0; index < this.carnivores.length; index++){
             const creature = this.carnivores[index];
-            let directionVector = [0, 0];
             let potentialMates = false;
             if (creature.energy/creature.maxEnergy > creature.foodThreshold){
                 let carnivore_distances = this.getDistanceList(creature,this.carnivores);
                 if (carnivore_distances.length >  0) {
-                    directionVector = this.getDirectionVector(creature, carnivore_distances[0][1]);
+                    creature.directionVector= this.getDirectionVector(creature, carnivore_distances[0][1]);
                     potentialMates = true;
                 }
             }
-            if (potentialMates == false){
-                //Find prey
-                let herbivore_distances = this.getDistanceList(creature,this.herbivores);
-                if (herbivore_distances.length > 0) {
-                    directionVector = this.getDirectionVector(creature,herbivore_distances[0][1]);
+
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold){
+                creature.lookingForMate = true;
+                let mate_distances = this.getDistanceList(creature,this.carnivores);
+                for (let i = 0; i < mate_distances; i++) {
+                    if (mate_distances[i][1].lookingForMate) {
+                        creature.directionVector= this.getDirectionVector(creature, mate_distances[i][1]);
+                        if (this.checkCollision(creature,mate_distances[i][1])) {
+                            let children = creature.crossover(mate_distances[i][1]);
+                            this.carnivores.push(children[0]);
+                            this.carnivores.push(children[1]);
+                            creature.energy -= creature.maxEnergy/2;
+                            mate_distances[i][1].energy /= 2;
+                            creature.lookingForMate = false;
+                            mate_distances[i][1].lookingForMate = false;
+                            break;
+                        }
+                    }
                 }
             }
-            creature.move(directionVector, creature.speed);
-            creature.energy -= 1;
+            else {
+                creature.lookingForMate = false;
+            }
+            creature.move(creature.directionVector, creature.speed);
+            creature.energy -= 0.1;
 
         }
-        for (let index = 0; index < this.maxFood; index++) {
+        for (let index = this.food.length; index < this.maxFood; index++) {
             if (Math.random() < this.foodSpawnFrequency) {
                 this.food.push(new Food())
             }
@@ -119,15 +154,15 @@ export default class Population {
         let y_dist = creature.y - other_object.y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
         
-        let directionVector = [0, 0];
+        let directionVector= [0, 0];
         if (moveTowards) {
-            directionVector = [-x_dist / hypotenuse, -y_dist / hypotenuse];
+            directionVector= [-x_dist / hypotenuse, -y_dist / hypotenuse];
         }
         else {
-            directionVector = [x_dist / hypotenuse, y_dist / hypotenuse]
+            directionVector= [x_dist / hypotenuse, y_dist / hypotenuse]
         }
         if (isNaN(directionVector[0])){
-            console.log("grej:");
+            console.log("Directionvector is NaN:");
             console.log(creature);
             console.log(other_object);
             console.log(x_dist);
@@ -152,6 +187,19 @@ export default class Population {
             distances.sort(compare);
         }
         return distances;
+    }
+
+    checkCollision(creature, other_object){
+        let x_dist = creature.x - other_object.x;
+        let y_dist = creature.y - other_object.y;
+        let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
+        if (hypotenuse < (other_object.size/2+creature.size/2)) {
+            
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
