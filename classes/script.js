@@ -13,7 +13,7 @@ function doStuff() {
     renderer.draw();
 }
 
-setInterval(doStuff, 100);
+setInterval(doStuff, 1000);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
