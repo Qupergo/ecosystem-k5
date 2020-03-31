@@ -72,9 +72,10 @@ export default class render {
 
         //Draw Food
         for (let i = 0; i < this.population.food.length; i++){
+            const currentFood = this.population.food[i]
             this.ctx.fillStyle = "brown";
             this.ctx.beginPath();
-            this.ctx.arc(carnivore.parts[h][0], carnivore.parts[h][1], 4 * this.population.food[i].givenEnergy, 0, 2 * Math.PI);
+            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/5, 0, 2 * Math.PI);
             this.ctx.closePath()
             this.ctx.fill();
         }

@@ -51,10 +51,34 @@ export default class Population {
         for (let index = 0; index < this.herbivores.length; index++) {
             const creature = this.herbivores[index];
             let directionVector = [0, 0]
+            let potentialMates = false;
+            let detectedDanger = false;
 
             //Find threats
-            let carnivore_distances = this.getDistanceList(creature,this.carnivores);
-            
+            if (true){
+                let predator_distances = this.getDistanceList(creature,this.carnivores);
+                if (predator_distances.length >  0) {
+                    directionVector = this.getDirectionVector(creature, predator_distances[0][1], false);
+                    detectedDanger = true;
+                }
+            }
+            //Find mates
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold){
+                let mate_distances = this.getDistanceList(creature,this.herbivores);
+                if (mate_distances.length >  0) {
+                    directionVector = this.getDirectionVector(creature, mate_distances[0][1]);
+                    potentialMates = true;
+                }
+            }
+
+            //Find food
+            if (!potentialMates && !detectedDanger){
+                //Find prey
+                let food_distances = this.getDistanceList(creature,this.food);
+                if (food_distances.length > 0) {
+                    directionVector = this.getDirectionVector(creature,food_distances[0][1]);
+                }
+            }
             creature.move(directionVector, creature.speed);
             creature.energy -= 1;
         }
@@ -79,6 +103,12 @@ export default class Population {
             }
             creature.move(directionVector, creature.speed);
             creature.energy -= 1;
+
+        }
+        for (let index = 0; index < this.maxFood; index++) {
+            if (Math.random() < this.foodSpawnFrequency) {
+                this.food.push(new Food())
+            }
 
         }
     }
