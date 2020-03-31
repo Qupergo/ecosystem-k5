@@ -117,13 +117,10 @@ export default class Population {
                 distances.push([hypotenuse,creature]);
             }
         }
-        if (distances.length > 0) {
+        if (distances.length > 1) {
             distances.sort(compare);
-            return distances;
         }
-        else {
-            return false;
-        }
+        return distances;
     }
 }
 
