@@ -2,9 +2,14 @@ import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
 
+let canvas = document.querySelector("#EcosystemCanvas");
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
 let h1 = document.querySelector("#aliveCounter")
 let popis = new Population(400,0,0.01);
-let renderer = new render(document.querySelector("#EcosystemCanvas"),popis);
+
+let renderer = new render(canvas,popis);
+
 
 
 renderer.draw();

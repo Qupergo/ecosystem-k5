@@ -75,8 +75,8 @@ export default class Population {
                                 this.herbivores.push(children[index]);
                             }
 
-                            creature.energy -= creature.maxEnergy/1.5;
-                            mate_distances[i][1].energy -= creature.maxEnergy/1.5;
+                            creature.energy -= 70;
+                            mate_distances[i][1].energy -= 70;
 
                             creature.lookingForMate = false;
                             mate_distances[i][1].lookingForMate = false;
@@ -103,7 +103,7 @@ export default class Population {
             }
 
             creature.move(creature.directionVector, creature.speed);
-            creature.energy -= 1;
+            creature.energy -= creature.energyPerMove;
             creature.age += 1;
             creature.maturationPeriod -= 1;
 

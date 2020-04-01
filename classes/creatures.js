@@ -4,6 +4,7 @@ export default class Creature {
         this.foodType = foodType;
         this.lookingForMate = false;
         this.directionVector= [0,0];
+        this.energyPerMove = 0;
 
         this.age = 0;
         this.maturationPeriod = 100;
@@ -32,7 +33,14 @@ export default class Creature {
         this.foodThreshold = this.maxFoodThreshold*Math.random();
         this.dangerThreshold = this.maxDangerThreshold*Math.random();
 
+        this.calculateEnergyPerMove();
 
+    }
+
+    calculateEnergyPerMove(){
+        let weight = 0.5;
+        this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*weight + this.speed/this.maxSpeed*weight + this.size/this.maxSize*weight;
+        console.log(this.energyPerMove);
     }
 
     move(directionVector, speed=1) {
@@ -67,8 +75,8 @@ export default class Creature {
             children[i].x = this.x + Math.random();
             children[i].y = this.y + Math.random();
 
-            children[i].energy = this.energy;
-
+            children[i].energy = 70;
+            children[i].calculateEnergyPerMove();
         }
 
         return children;
