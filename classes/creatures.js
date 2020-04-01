@@ -54,6 +54,7 @@ export default class Creature {
         // Oscar klaga inte, det fungerar
 
         let mutated = new Creature(this.foodType);
+        muteated.color = randomObject([this,otherParent]).color
 
         for ( let i = 0; i < 2; i++) {
             children[i].perceptionFieldDistance = randomObject([this,otherParent,mutated],true).perceptionFieldDistance;
