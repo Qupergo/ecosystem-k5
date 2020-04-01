@@ -20,7 +20,7 @@ export default class Creature {
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
         this.maxSpeed = 20;
-        this.maxSize = 30;
+        this.maxSize = 15;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 
@@ -62,6 +62,7 @@ export default class Creature {
         // Oscar klaga inte, det fungerar
 
         let mutated = new Creature(this.foodType);
+        mutated.color = randomObject([this,otherParent]).color
 
         for ( let i = 0; i < 2; i++) {
             children[i].perceptionFieldDistance = randomObject([this,otherParent,mutated],true).perceptionFieldDistance;
@@ -81,9 +82,6 @@ export default class Creature {
 
         return children;
     }
-
-    
-
 }
 
 function randomObject(arr, lastIsMutation=false, mutationChance=0.1){
