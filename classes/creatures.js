@@ -39,7 +39,6 @@ export default class Creature {
 
     calculateEnergyPerMove(){
         this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*0.5 + this.speed/this.maxSpeed*0.5 + this.size/this.maxSize*2;
-        console.log(this.energyPerMove);
     }
 
     move(directionVector, speed=1) {

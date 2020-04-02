@@ -225,56 +225,63 @@ export default class Population {
         }
     }
 
-    findHerbivoreAverages() {
-
+    findcreatureAverages(creatures) {
         let sum = 0
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const herbivore = this.herbivores[index];
-            sum += herbivore.perceptionFieldDistance;
+        for (let index = 0; index < creatures.length; index++) {
+            const creature = creatures[index];
+            sum += creature.perceptionFieldDistance;
         }
 
-        let perceptionAvg = Math.round(sum/this.herbivores.length*100)/100
+        let perceptionAvg = Math.round(sum/creatures.length*100)/100
 
         sum = 0
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const herbivore = this.herbivores[index];
-            sum += herbivore.size;
+        for (let index = 0; index < creatures.length; index++) {
+            const creature = creatures[index];
+            sum += creature.size;
         }
 
-        let sizeAvg = Math.round(sum/this.herbivores.length*100)/100
+        let sizeAvg = Math.round(sum/creatures.length*100)/100
 
         sum = 0
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const herbivore = this.herbivores[index];
-            sum += herbivore.speed;
+        for (let index = 0; index < creatures.length; index++) {
+            const creature = creatures[index];
+            sum += creature.speed;
         }
 
-        let speedAvg = Math.round(sum/this.herbivores.length*100)/100
+        let speedAvg = Math.round(sum/creatures.length*100)/100
 
         sum = 0
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const herbivore = this.herbivores[index];
-            sum += herbivore.foodThreshold;
+        for (let index = 0; index < creatures.length; index++) {
+            const creature = creatures[index];
+            sum += creature.foodThreshold;
         }
 
-        let foodAvg = Math.round(sum/this.herbivores.length*100)/100
+        let foodAvg = Math.round(sum/creatures.length*100)/100
 
         sum = 0
-        for (let index = 0; index < this.herbivores.length; index++) {
-            const herbivore = this.herbivores[index];
-            sum += herbivore.dangerThreshold;
+        for (let index = 0; index < creatures.length; index++) {
+            const creature = creatures[index];
+            sum += creature.dangerThreshold;
         }
 
-        let dangerAvg = Math.round(sum/this.herbivores.length*100)/100
+        let dangerAvg = Math.round(sum/creatures.length*100)/100
         
         return [perceptionAvg, sizeAvg, speedAvg, foodAvg, dangerAvg]
     }
 
-    updateStatDisplay() {
+    updateStatDisplay(foodtype) {
 
-        let defaultCreature = new Creature("Herbivore");
+        let defaultCreature = new Creature(foodtype);
+        let averages;
 
-        let averages = this.findHerbivoreAverages();
+        if (foodtype == "herbivore") {
+            averages = this.findcreatureAverages(this.herbivores);
+        }
+
+        else if (foodtype == "carnivore") {
+            averages = this.findcreatureAverages(this.carnivores);
+        }
+
         let perceptionDisplay = document.querySelector("#perceptionDisplay");
         perceptionDisplay.innerHTML = "Perception field average: " + averages[0];
         perceptionDisplay.style.width = (averages[0]/defaultCreature.maxPerceptionFieldDistance * 100) + "%";
