@@ -1,3 +1,41 @@
 #EcosystemCanvas {
     border: 1px solid black;
 }
+
+.displayBarContainer {
+    background-color: #ebebeb;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+
+
+}
+
+.displayBar {
+    padding: 5px;
+    transition: width 2s;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-radius: 10px;
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+#perceptionDisplay {
+    background-color: #6DA34D;
+}
+
+#speedDisplay {
+    background-color: #56445D;
+}
+
+#sizeDisplay {
+    background-color: #548687;
+}
+
+#foodDisplay {
+    background-color: #8FBC94;
+}
+
+#dangerDisplay {
+    background-color: #C5E99B;
+}
