@@ -13,7 +13,7 @@
 
 .displayBar {
     padding: 5px;
-    transition: width 0.1s;
+    transition: width 1s;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-radius: 10px;
@@ -49,6 +49,7 @@
 
 #carnivoreButton {
     background-color: #931621;
+
 }
 
 #herbivoreButton {
