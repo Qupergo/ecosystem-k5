@@ -85,7 +85,6 @@ export default class Population {
                     }
                 }
             }
-
             else {
                 creature.lookingForMate = false;
             }
@@ -119,30 +118,26 @@ export default class Population {
         //Carnivores
         for (let index = 0; index < this.carnivores.length; index++) {
             const creature = this.carnivores[index];
-            let potentialMates = false;
-            if (creature.energy/creature.maxEnergy > creature.foodThreshold){
-                let carnivore_distances = this.getDistanceList(creature,this.carnivores);
-                if (carnivore_distances.length >  0) {
-                    creature.directionVector= this.getDirectionVector(creature, carnivore_distances[0][1]);
-                    potentialMates = true;
-                }
-            }
 
-            if (creature.energy/creature.maxEnergy > creature.foodThreshold) {
+            //Find mates
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold && creature.maturationPeriod <= 0) {
                 creature.lookingForMate = true;
-                let mate_distances = this.getDistanceList(creature,this.carnivores);
-                for (let i = 0; i < mate_distances; i++) {
+                let mate_distances = this.getDistanceList(creature,this.herbivores);
+                for (let i = 0; i < mate_distances.length; i++) {
+                    //Check if given consent
                     if (mate_distances[i][1].lookingForMate) {
                         creature.directionVector= this.getDirectionVector(creature, mate_distances[i][1]);
-                        if (this.checkCollision(creature,mate_distances[i][1])) {
+                        //Check if collision
+                        if (this.checkCollision(creature, mate_distances[i][1])) {
                             let children = creature.crossover(mate_distances[i][1]);
-                            
+
                             for (let index = 0; index < children.length; index++) {
-                                this.carnivores.push(children[index]);
+                                this.herbivores.push(children[index]);
                             }
 
-                            creature.energy -= creature.maxEnergy/2;
-                            mate_distances[i][1].energy -= mate_distances[i][1].maxEnergy/2;
+                            creature.energy -= 70;
+                            mate_distances[i][1].energy -= 70;
+
                             creature.lookingForMate = false;
                             mate_distances[i][1].lookingForMate = false;
                             break;
@@ -152,6 +147,17 @@ export default class Population {
             }
             else {
                 creature.lookingForMate = false;
+            }
+
+            if (!creature.lookingForMate) {
+                let prey_distances = this.getDistanceList(creature,this.herbivores);
+                if (prey_distances.length > 0) {
+                    creature.directionVector= this.getDirectionVector(creature,prey_distances[0][1]);
+                    if (this.checkCollision(creature, prey_distances[0][1])) {
+                        creature.energy = Math.min(creature.energy + prey_distances[0][1].energy, creature.maxEnergy);
+                        this.herbivores.remove(prey_distances[0][1]);
+                    }
+                }
             }
             creature.move(creature.directionVector, creature.speed);
             creature.energy -= 0.1;
@@ -210,7 +216,7 @@ export default class Population {
         let x_dist = creature.x - other_object.x;
         let y_dist = creature.y - other_object.y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-        if (hypotenuse < (other_object.size/2+creature.size/2)) {
+        if (hypotenuse < (other_object.size+creature.size)) {
             
             return true;
         }
