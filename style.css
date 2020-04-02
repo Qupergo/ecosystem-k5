@@ -8,7 +8,6 @@
     margin: 5px;
     padding: 5px;
 
-
 }
 
 .displayBar {
@@ -18,6 +17,15 @@
     border-bottom-left-radius: 10px;
     border-radius: 10px;
     font-family: 'Do Hyeon', sans-serif; 
+
+}
+
+.greenBorder {
+    border: #00CC66 1px solid;
+}
+
+.redBorder {
+    border: #931621 1px solid;
 }
 
 .displayButtons {
@@ -46,6 +54,17 @@
     background-color: #C5E99B;
 }
 
+button {
+
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
 
 #carnivoreButton {
     background-color: #931621;
@@ -53,6 +72,6 @@
 }
 
 #herbivoreButton {
-    background-color: #05F140;
-    
+    background-color: #00CC66;
+    display: none;
 }
