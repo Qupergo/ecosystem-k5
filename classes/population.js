@@ -210,7 +210,7 @@ export default class Population {
         let x_dist = creature.x - other_object.x;
         let y_dist = creature.y - other_object.y;
         let hypotenuse = Math.sqrt(x_dist * x_dist + y_dist * y_dist);
-        if (hypotenuse < (other_object.size/2+creature.size/2)) {
+        if (hypotenuse < (other_object.size+creature.size)) {
             
             return true;
         }

@@ -21,7 +21,7 @@ function doStuff() {
 
 }
 
-setInterval(doStuff, 0);
+setInterval(doStuff, 1);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
