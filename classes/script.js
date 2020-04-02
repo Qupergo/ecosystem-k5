@@ -6,7 +6,7 @@ let canvas = document.querySelector("#EcosystemCanvas");
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
 let h1 = document.querySelector("#aliveCounter")
-let popis = new Population(400,0,0.01);
+let popis = new Population(200,10,0.01);
 
 let renderer = new render(canvas,popis);
 
