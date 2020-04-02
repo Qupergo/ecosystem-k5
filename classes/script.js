@@ -6,7 +6,7 @@ let canvas = document.querySelector("#EcosystemCanvas");
 canvas.width  = window.innerWidth;
 canvas.height = window.innerHeight;
 let h1 = document.querySelector("#aliveCounter")
-let popis = new Population(200,10,0.01);
+let popis = new Population(200,200,0.01);
 
 let renderer = new render(canvas,popis);
 
@@ -17,8 +17,12 @@ renderer.draw();
 function doStuff() {
     popis.makeMoves();
     renderer.draw();
-    h1.innerHTML = "Current Alive: " + (popis.carnivores.length + popis.herbivores.length);
-
+    h1.innerHTML = "Current Alive: " + (popis.carnivores.length);
+    let toteng = 0;
+    for (let i = 0; i < popis.carnivores.length; i++){
+        toteng += popis.carnivores[i].energy;
+    }
+    console.log(toteng/popis.carnivores.length);
 }
 
 setInterval(doStuff, 1);

@@ -29,17 +29,9 @@ export default class Population {
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
             let carnivore = new Creature("carnivore");
-            let rand = Math.random();
-            carnivore.parts = [
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50],
-                [carnivore.x - rand * 50, carnivore.y - rand * 50]
-            ];
+            for (let i = 0; i < 20; i++){
+                carnivore.parts.push([carnivore.x,carnivore.y]);
+            }
             this.carnivores.push(carnivore);
         }
     }
@@ -51,7 +43,7 @@ export default class Population {
             let detectedDanger = false;
 
             //Find threats
-            if (creature.energy/creature.maxEnergy > creature.dangerThreshold) {
+            if (creature.energy/creature.maxEnergy > creature.dangerThreshold && creature.alive) {
                 let predator_distances = this.getDistanceList(creature,this.carnivores);
                 if (predator_distances.length >  0) {
                     creature.directionVector= this.getDirectionVector(creature, predator_distances[0][1], false);
@@ -60,7 +52,7 @@ export default class Population {
             }
 
             //Find mates
-            if (creature.energy/creature.maxEnergy > creature.foodThreshold && !detectedDanger && creature.maturationPeriod <= 0) {
+            if (creature.energy/creature.maxEnergy > creature.foodThreshold && !detectedDanger && creature.maturationPeriod <= 0 && creature.alive) {
                 creature.lookingForMate = true;
                 let mate_distances = this.getDistanceList(creature,this.herbivores);
                 for (let i = 0; i < mate_distances.length; i++) {
@@ -90,7 +82,7 @@ export default class Population {
             }
 
             //Find food
-            if (!creature.lookingForMate && !detectedDanger) {
+            if (!creature.lookingForMate && !detectedDanger && creature.alive) {
                 let food_distances = this.getDistanceList(creature,this.food);
                 if (food_distances.length > 0) {
                     creature.directionVector= this.getDirectionVector(creature,food_distances[0][1]);
@@ -107,7 +99,9 @@ export default class Population {
             creature.maturationPeriod -= 1;
 
             if (creature.energy <= 0) {
-                this.herbivores.remove(creature);
+                creature.directionVector = [0,0];
+                creature.alive = false;
+                creature.lookingForMate = false;
             }
 
             if (creature.age > 1000) {
@@ -122,7 +116,7 @@ export default class Population {
             //Find mates
             if (creature.energy/creature.maxEnergy > creature.foodThreshold && creature.maturationPeriod <= 0) {
                 creature.lookingForMate = true;
-                let mate_distances = this.getDistanceList(creature,this.herbivores);
+                let mate_distances = this.getDistanceList(creature,this.carnivores);
                 for (let i = 0; i < mate_distances.length; i++) {
                     //Check if given consent
                     if (mate_distances[i][1].lookingForMate) {
@@ -132,8 +126,9 @@ export default class Population {
                             let children = creature.crossover(mate_distances[i][1]);
 
                             for (let index = 0; index < children.length; index++) {
-                                this.herbivores.push(children[index]);
+                                this.carnivores.push(children[index]);
                             }
+                            console.log("snake bred");
 
                             creature.energy -= 70;
                             mate_distances[i][1].energy -= 70;
@@ -149,6 +144,7 @@ export default class Population {
                 creature.lookingForMate = false;
             }
 
+            //Find prey
             if (!creature.lookingForMate) {
                 let prey_distances = this.getDistanceList(creature,this.herbivores);
                 if (prey_distances.length > 0) {
@@ -156,11 +152,22 @@ export default class Population {
                     if (this.checkCollision(creature, prey_distances[0][1])) {
                         creature.energy = Math.min(creature.energy + prey_distances[0][1].energy, creature.maxEnergy);
                         this.herbivores.remove(prey_distances[0][1]);
+                        console.log("snake ate");
                     }
                 }
             }
             creature.move(creature.directionVector, creature.speed);
-            creature.energy -= 0.1;
+            creature.energy -= creature.energyPerMove/2;
+            creature.age += 1;
+            creature.maturationPeriod -= 1;
+
+            if (creature.energy <= 0) {
+                this.carnivores.remove(creature);
+            }
+
+            if (creature.age > 1000) {
+                this.carnivores.remove(creature);
+            }
 
         }
         for (let index = this.food.length; index < this.maxFood; index++) {
