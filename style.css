@@ -17,7 +17,13 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-radius: 10px;
-    font-family: 'Do Hyeon', sans-serif;
+    font-family: 'Do Hyeon', sans-serif; 
+}
+
+.displayButtons {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #perceptionDisplay {
@@ -38,4 +44,14 @@
 
 #dangerDisplay {
     background-color: #C5E99B;
+}
+
+
+#carnivoreButton {
+    background-color: #931621;
+}
+
+#herbivoreButton {
+    background-color: #05F140;
+    
 }

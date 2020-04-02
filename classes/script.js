@@ -13,17 +13,36 @@ let popis = new Population(400,100,0.01);
 
 let renderer = new render(canvas,popis);
 
+let displayType = "herbivore";
 
 
 renderer.draw();
+
+let carnivoreButton = document.querySelector("#carnivoreButton")
+let herbivoreButton = document.querySelector("#herbivoreButton")
+
+
+
+function changeDisplayType(event) {
+    if (event.target == herbivoreButton) {
+        displayType = "herbivore"
+    }
+    else {
+        displayType = "carnivore"
+    }
+    
+
+}
+
+carnivoreButton.addEventListener("click", changeDisplayType);
+herbivoreButton.addEventListener("click", changeDisplayType);
 
 function doStuff() {
     popis.makeMoves();
     renderer.draw();
     carnivoreCounter.innerHTML = (popis.carnivores.length) + " Carnivores"
     herbivoreCounter.innerHTML = (popis.herbivores.length) + " Herbivores"
-
-    popis.updateStatDisplay();
+    popis.updateStatDisplay(displayType);
 }
 
 setInterval(doStuff, 1);
