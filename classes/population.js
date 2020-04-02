@@ -218,7 +218,87 @@ export default class Population {
             return false;
         }
     }
+
+    findHerbivoreAverages() {
+
+        let sum = 0
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const herbivore = this.herbivores[index];
+            sum += herbivore.perceptionFieldDistance;
+        }
+
+        let perceptionAvg = Math.round(sum/this.herbivores.length*100)/100
+
+        sum = 0
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const herbivore = this.herbivores[index];
+            sum += herbivore.size;
+        }
+
+        let sizeAvg = Math.round(sum/this.herbivores.length*100)/100
+
+        sum = 0
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const herbivore = this.herbivores[index];
+            sum += herbivore.speed;
+        }
+
+        let speedAvg = Math.round(sum/this.herbivores.length*100)/100
+
+        sum = 0
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const herbivore = this.herbivores[index];
+            sum += herbivore.foodThreshold;
+        }
+
+        let foodAvg = Math.round(sum/this.herbivores.length*100)/100
+
+        sum = 0
+        for (let index = 0; index < this.herbivores.length; index++) {
+            const herbivore = this.herbivores[index];
+            sum += herbivore.dangerThreshold;
+        }
+
+        let dangerAvg = Math.round(sum/this.herbivores.length*100)/100
+        
+        return [perceptionAvg, sizeAvg, speedAvg, foodAvg, dangerAvg]
+    }
+
+    updateStatDisplay() {
+
+        let defaultCreature = new Creature("Herbivore");
+
+        let averages = this.findHerbivoreAverages();
+        let perceptionDisplay = document.querySelector("#perceptionDisplay");
+        perceptionDisplay.innerHTML = "Perception field average: " + averages[0];
+        perceptionDisplay.style.width = (averages[0]/defaultCreature.maxPerceptionFieldDistance * 100) + "%";
+
+
+        let sizeDisplay = document.querySelector("#sizeDisplay");
+        sizeDisplay.innerHTML = "Size Field Average: " + averages[1];
+        sizeDisplay.style.width = (averages[1]/defaultCreature.maxSize * 100) + "%";
+
+
+        let speedDisplay = document.querySelector("#speedDisplay");
+        speedDisplay.innerHTML = "Speed Average: " + averages[2];
+        speedDisplay.style.width = (averages[2]/defaultCreature.maxSpeed * 100) + "%";
+
+
+        let foodDisplay = document.querySelector("#foodDisplay");
+        foodDisplay.innerHTML = "Food Threshold Average: " + averages[3];
+        foodDisplay.style.width = (averages[3]/defaultCreature.maxFoodThreshold * 100) + "%";
+
+
+        let dangerDisplay = document.querySelector("#dangerDisplay");
+        dangerDisplay.innerHTML = "Danger Threshold Average: " + averages[4];
+        dangerDisplay.style.width = (averages[4]/defaultCreature.maxDangerThreshold * 100) + "%";
+
+    }
 }
+
+
+
+
 
 function compare(x,y){
     if (x[0] === y[0]) {
