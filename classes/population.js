@@ -95,16 +95,16 @@ export default class Population {
 
             creature.move(creature.directionVector, creature.speed);
             creature.energy -= creature.energyPerMove;
-            creature.age += 1;
             creature.maturationPeriod -= 1;
 
             if (creature.energy <= 0) {
                 creature.directionVector = [0,0];
                 creature.alive = false;
                 creature.lookingForMate = false;
+                creature.age += 1;
             }
 
-            if (creature.age > 1000) {
+            if (!creature.alive && creature.age > 100) {
                 this.herbivores.remove(creature);
             }
         }
@@ -124,8 +124,10 @@ export default class Population {
                         //Check if collision
                         if (this.checkCollision(creature, mate_distances[i][1])) {
                             let children = creature.crossover(mate_distances[i][1]);
-
                             for (let index = 0; index < children.length; index++) {
+                                for (let i = 0; i < 20; i++){
+                                    children[index].parts.push([creature.x,creature.y]);
+                                }
                                 this.carnivores.push(children[index]);
                             }
                             console.log("snake bred");
@@ -150,22 +152,18 @@ export default class Population {
                 if (prey_distances.length > 0) {
                     creature.directionVector= this.getDirectionVector(creature,prey_distances[0][1]);
                     if (this.checkCollision(creature, prey_distances[0][1])) {
-                        creature.energy = Math.min(creature.energy + prey_distances[0][1].energy, creature.maxEnergy);
+                        creature.energy = Math.min(creature.energy + prey_distances[0][1].maxEnergy, creature.maxEnergy);
                         this.herbivores.remove(prey_distances[0][1]);
                         console.log("snake ate");
                     }
                 }
             }
             creature.move(creature.directionVector, creature.speed);
-            creature.energy -= creature.energyPerMove/2;
+            creature.energy -= creature.energyPerMove;
             creature.age += 1;
             creature.maturationPeriod -= 1;
 
             if (creature.energy <= 0) {
-                this.carnivores.remove(creature);
-            }
-
-            if (creature.age > 1000) {
                 this.carnivores.remove(creature);
             }
 

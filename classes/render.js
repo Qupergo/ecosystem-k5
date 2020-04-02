@@ -25,15 +25,19 @@ export default class render {
         for (let i = 0; i < this.population.herbivores.length; i++) {
             const herbivore = this.population.herbivores[i];
             //Draw perceptionfield
-            this.ctx.beginPath();
-            this.ctx.arc(herbivore.x,herbivore.y,herbivore.perceptionFieldDistance,0,Math.PI*2);
-            this.ctx.fillStyle = "rgba(201,228,202,0.01)";
-            this.ctx.fill();
-            this.ctx.closePath();
+            if ( herbivore.alive ) {
+                this.ctx.beginPath();
+                this.ctx.arc(herbivore.x,herbivore.y,herbivore.perceptionFieldDistance,0,Math.PI*2);
+                this.ctx.fillStyle = "rgba(201,228,202,0.01)";
+                this.ctx.fill();
+                this.ctx.closePath();
+            }
+            
             //Draw head
             this.ctx.beginPath();
             this.ctx.arc(herbivore.x, herbivore.y, herbivore.size, 0, 2 * Math.PI);
-            this.ctx.fillStyle = herbivore.color;
+            if (herbivore.alive) this.ctx.fillStyle = herbivore.color;
+            else this.ctx.fillStyle = "rgba(40,20,20,0.5)";
             this.ctx.fill();
             //Draw energy
             this.ctx.strokeStyle = "hsl(0,0%," + ((herbivore.energy/herbivore.maxEnergy)*100) + "%)";
@@ -66,6 +70,7 @@ export default class render {
             //Draw body
             this.ctx.beginPath();
             //Find Midpoints
+            this.ctx.lineWidth = carnivore.size*0.75;
             this.ctx.fillStyle = "red";
             let midparts = [];
             for (let h = 0; h < carnivore.parts.length - 1; h++) {
@@ -84,7 +89,10 @@ export default class render {
             }
             midparts.push(mid);
             //Draw quadratic curves between midpoints using the parts as controlpoints
-            if (carnivore.parts[0] == null) continue;
+            if (carnivore.parts[0] == null) {
+                console.log(carnivore);
+                continue;
+            } 
             this.ctx.moveTo(carnivore.parts[0][0], carnivore.parts[0][1])
             this.ctx.strokeStyle = carnivore.color;
             this.ctx.lineTo(midparts[0].x, midparts[0].y);

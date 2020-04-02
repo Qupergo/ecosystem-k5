@@ -9,7 +9,7 @@ canvas.height = window.innerHeight;
 let carnivoreCounter = document.querySelector("#carnivoreCounter")
 let herbivoreCounter = document.querySelector("#herbivoreCounter")
 
-let popis = new Population(400,0,0.01);
+let popis = new Population(400,100,0.01);
 
 let renderer = new render(canvas,popis);
 
