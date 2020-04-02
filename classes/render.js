@@ -70,7 +70,7 @@ export default class render {
             //Draw body
             this.ctx.beginPath();
             //Find Midpoints
-            this.ctx.lineWidth = carnivore.size*0.75;
+            this.ctx.lineWidth = carnivore.size*0.9;
             this.ctx.fillStyle = "red";
             let midparts = [];
             for (let h = 0; h < carnivore.parts.length - 1; h++) {
