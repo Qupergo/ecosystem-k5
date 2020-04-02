@@ -11,6 +11,16 @@ export default class render {
         this.ctx.rect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.fill();
 
+        //Draw Food
+        for (let i = 0; i < this.population.food.length; i++){
+            const currentFood = this.population.food[i]
+            this.ctx.fillStyle = "brown";
+            this.ctx.beginPath();
+            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/10+5, 0, 2 * Math.PI);
+            this.ctx.closePath()
+            this.ctx.fill();
+        }
+
         //Draw herbivores as spot
         for (let i = 0; i < this.population.herbivores.length; i++) {
             const herbivore = this.population.herbivores[i];
@@ -25,6 +35,7 @@ export default class render {
             this.ctx.arc(herbivore.x, herbivore.y, herbivore.size, 0, 2 * Math.PI);
             this.ctx.fillStyle = herbivore.color;
             this.ctx.fill();
+            //Draw energy
             this.ctx.strokeStyle = "hsl(0,0%," + ((herbivore.energy/herbivore.maxEnergy)*100) + "%)";
             this.ctx.lineWidth = 5;
             this.ctx.closePath();
@@ -38,20 +49,22 @@ export default class render {
             //Draw perceptionfield
             this.ctx.beginPath();
             this.ctx.arc(carnivore.x,carnivore.y,carnivore.perceptionFieldDistance,0,Math.PI*2);
-            this.ctx.fillStyle = "rgba(201,228,202,0.01)";
+            this.ctx.fillStyle = "rgba(228,161,172,0.01)";
             this.ctx.fill();
             this.ctx.closePath();
-            this.ctx.beginPath();
+            
             //Draw head
+            this.ctx.beginPath();
             this.ctx.arc(carnivore.x, carnivore.y, carnivore.size, 0, 2 * Math.PI);
             this.ctx.fillStyle = carnivore.color;
-            this.ctx.strokeStyle = carnivore.color;
-            this.ctx.lineWidth = carnivore.size;
             this.ctx.fill();
+            this.ctx.strokeStyle = "hsl(0,0%," + ((carnivore.energy/carnivore.maxEnergy)*100) + "%)";
+            this.ctx.lineWidth = 5;
             this.ctx.closePath();
+            this.ctx.stroke();
+            
             //Draw body
-
-
+            this.ctx.beginPath();
             //Find Midpoints
             this.ctx.fillStyle = "red";
             let midparts = [];
@@ -71,26 +84,17 @@ export default class render {
             }
             midparts.push(mid);
             //Draw quadratic curves between midpoints using the parts as controlpoints
-            this.ctx.moveTo(carnivore.parts[0][0], carnivore.parts[0][1]);
+            if (carnivore.parts[0] == null) continue;
+            this.ctx.moveTo(carnivore.parts[0][0], carnivore.parts[0][1])
+            this.ctx.strokeStyle = carnivore.color;
             this.ctx.lineTo(midparts[0].x, midparts[0].y);
             for (let h = 0; h < carnivore.parts.length - 1; h++) {
                 const nextPart = carnivore.parts[h + 1];
                 this.ctx.quadraticCurveTo(nextPart[0], nextPart[1], midparts[h + 1].x, midparts[h + 1].y);
             }
             this.ctx.quadraticCurveTo(carnivore.parts[carnivore.parts.length - 1][0], carnivore.parts[carnivore.parts.length - 1][1], carnivore.x, carnivore.y);
-            // this.ctx.lineTo(carnivore.x, carnivore.y);
             this.ctx.stroke();
-            this.ctx.closePath();
-        }
-
-        //Draw Food
-        for (let i = 0; i < this.population.food.length; i++){
-            const currentFood = this.population.food[i]
-            this.ctx.fillStyle = "brown";
-            this.ctx.beginPath();
-            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/5+5, 0, 2 * Math.PI);
-            this.ctx.closePath()
-            this.ctx.fill();
+            
         }
         
         

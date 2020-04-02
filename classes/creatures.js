@@ -5,6 +5,7 @@ export default class Creature {
         this.lookingForMate = false;
         this.directionVector= [0,0];
         this.energyPerMove = 0;
+        this.alive = true;
 
         this.age = 0;
         this.maturationPeriod = 100;
@@ -19,8 +20,8 @@ export default class Creature {
 
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
-        this.maxSpeed = 20;
-        this.maxSize = 100;
+        this.maxSpeed = 2;
+        this.maxSize = 20;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 
