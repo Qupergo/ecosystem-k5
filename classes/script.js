@@ -45,7 +45,7 @@ function doStuff() {
     popis.updateStatDisplay(displayType);
 }
 
-setInterval(doStuff, 1);
+setInterval(doStuff, 0);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
