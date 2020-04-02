@@ -112,7 +112,7 @@ export default class Population {
         //Carnivores
         for (let index = 0; index < this.carnivores.length; index++) {
             const creature = this.carnivores[index];
-
+            let potentialMates = false;
             //Find mates
             if (creature.energy/creature.maxEnergy > creature.foodThreshold && creature.maturationPeriod <= 0) {
                 creature.lookingForMate = true;
@@ -122,6 +122,7 @@ export default class Population {
                     if (mate_distances[i][1].lookingForMate) {
                         creature.directionVector= this.getDirectionVector(creature, mate_distances[i][1]);
                         //Check if collision
+                        potentialMates = true;
                         if (this.checkCollision(creature, mate_distances[i][1])) {
                             let children = creature.crossover(mate_distances[i][1]);
                             for (let index = 0; index < children.length; index++) {
@@ -147,7 +148,7 @@ export default class Population {
             }
 
             //Find prey
-            if (!creature.lookingForMate) {
+            if (!potentialMates) {
                 let prey_distances = this.getDistanceList(creature,this.herbivores);
                 if (prey_distances.length > 0) {
                     creature.directionVector= this.getDirectionVector(creature,prey_distances[0][1]);
