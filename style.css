@@ -13,7 +13,7 @@
 
 .displayBar {
     padding: 5px;
-    transition: width 2s;
+    transition: width 0.1s;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-radius: 10px;
