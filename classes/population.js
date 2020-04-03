@@ -95,19 +95,19 @@ export default class Population {
 
             // Make sure they don't go out of bounds
             let newDirectionVector = [0, 0]
-            if (creature.x < 10) {
+            if (creature.x < 0) {
                 newDirectionVector = [1, 0];
 
             }
-            else if (creature.y < 10) {
+            else if (creature.y < 0) {
                 newDirectionVector = [0, 1];
 
             }
-            else if ((canvas.width - creature.x) < 10) {
+            else if ((canvas.width - creature.x) < 0) {
                 newDirectionVector = [-1, 0];
 
             }
-            else if ((canvas.height - creature.y) < 10) {
+            else if ((canvas.height - creature.y) < 0) {
                 newDirectionVector = [0, -1];
             }
 
@@ -185,19 +185,19 @@ export default class Population {
 
             // Make sure they don't go out of bounds
             let newDirectionVector = [0, 0]
-            if (creature.x < 10) {
+            if (creature.x < 0) {
                 newDirectionVector = [1, 0];
 
             }
-            else if (creature.y < 10) {
+            else if (creature.y < 0) {
                 newDirectionVector = [0, 1];
 
             }
-            else if ((canvas.width - creature.x) < 10) {
+            else if ((canvas.width - creature.x) < 0) {
                 newDirectionVector = [-1, 0];
 
             }
-            else if ((canvas.height - creature.y) < 10) {
+            else if ((canvas.height - creature.y) < 0) {
                 newDirectionVector = [0, -1];
             }
 
