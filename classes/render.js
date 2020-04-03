@@ -105,7 +105,7 @@ export default class render {
             
         }
         
-        
+        this.ctx.closePath();
     }
 
 }
