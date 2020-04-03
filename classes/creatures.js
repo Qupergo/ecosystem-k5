@@ -20,8 +20,8 @@ export default class Creature {
 
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
-        this.maxSpeed = 10;
-        this.maxSize = 30;
+        this.maxSpeed = 5;
+        this.maxSize = 10;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 

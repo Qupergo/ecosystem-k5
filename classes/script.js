@@ -3,8 +3,8 @@ import Population from "./population.js";
 import render from "./render.js";
 
 let canvas = document.querySelector("#EcosystemCanvas");
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width  = window.innerWidth*0.75;
+canvas.height = window.innerHeight*0.75;
 
 let carnivoreCounter = document.querySelector("#carnivoreCounter")
 let herbivoreCounter = document.querySelector("#herbivoreCounter")
@@ -15,13 +15,6 @@ let renderer = new render(canvas,popis);
 
 let displayType = "herbivore";
 
-let perceptionDisplay = document.querySelector("#perceptionDisplay");
-let sizeDisplay = document.querySelector("#sizeDisplay");
-let speedDisplay = document.querySelector("#speedDisplay");
-let foodDisplay = document.querySelector("#foodDisplay");
-let dangerDisplay = document.querySelector("#dangerDisplay");
-
-let displays = [perceptionDisplay, sizeDisplay, speedDisplay, foodDisplay, dangerDisplay];
 
 renderer.draw();
 
@@ -29,29 +22,13 @@ let carnivoreButton = document.querySelector("#carnivoreButton")
 let herbivoreButton = document.querySelector("#herbivoreButton")
 
 
+
 function changeDisplayType(event) {
     if (event.target == herbivoreButton) {
         displayType = "herbivore"
-        herbivoreButton.style.display = "none"
-        carnivoreButton.style.display = "block"
-        for (let index = 0; index < displays.length; index++) {
-            const display = displays[index];
-            display.classList.remove("redBorder")
-            display.classList.add("greenBorder") 
-
-        }
     }
     else {
         displayType = "carnivore"
-        carnivoreButton.style.display = "none"
-        herbivoreButton.style.display = "block"
-        for (let index = 0; index < displays.length; index++) {
-            const display = displays[index];
-            display.classList.remove("greenBorder")
-            display.classList.add("redBorder")
-        }
-
-
     }
     
 
@@ -68,7 +45,7 @@ function doStuff() {
     popis.updateStatDisplay(displayType);
 }
 
-setInterval(doStuff, 0);
+setInterval(doStuff, 1);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
