@@ -53,7 +53,7 @@ export default class render {
             //Draw perceptionfield
             this.ctx.beginPath();
             this.ctx.arc(carnivore.x,carnivore.y,carnivore.perceptionFieldDistance,0,Math.PI*2);
-            this.ctx.fillStyle = "rgba(228,161,172,0.01)";
+            this.ctx.fillStyle = "rgba(255,122,122,0.03)";
             this.ctx.fill();
             this.ctx.closePath();
             
