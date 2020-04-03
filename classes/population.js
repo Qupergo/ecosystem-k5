@@ -29,7 +29,7 @@ export default class Population {
         for (let index = 0; index < carnivoreAmount; index++) {
             //Create new carnivore
             let carnivore = new Creature("carnivore");
-            for (let i = 0; i < 20; i++){
+            for (let i = 0; i < 20; i++) {
                 carnivore.parts.push([carnivore.x,carnivore.y]);
             }
             this.carnivores.push(carnivore);
@@ -92,6 +92,33 @@ export default class Population {
                     }
                 }
             }
+
+            // Make sure they don't go out of bounds
+            let newDirectionVector = [0, 0]
+            if (creature.x < 10) {
+                newDirectionVector = [1, 0];
+
+            }
+            else if (creature.y < 10) {
+                newDirectionVector = [0, 1];
+
+            }
+            else if ((canvas.width - creature.x) < 10) {
+                newDirectionVector = [-1, 0];
+
+            }
+            else if ((canvas.height - creature.y) < 10) {
+                newDirectionVector = [0, -1];
+            }
+
+            if (!newDirectionVector.equals([0,0])) {
+                creature.directionVector[0] += newDirectionVector[0];
+                creature.directionVector[1] += newDirectionVector[1];
+    
+                creature.directionVector[0] /= 2;
+                creature.directionVector[1] /= 2;
+            }
+
 
             creature.move(creature.directionVector, creature.speed);
             creature.energy -= creature.energyPerMove;
@@ -159,6 +186,33 @@ export default class Population {
                     }
                 }
             }
+
+            // Make sure they don't go out of bounds
+            let newDirectionVector = [0, 0]
+            if (creature.x < 10) {
+                newDirectionVector = [1, 0];
+
+            }
+            else if (creature.y < 10) {
+                newDirectionVector = [0, 1];
+
+            }
+            else if ((canvas.width - creature.x) < 10) {
+                newDirectionVector = [-1, 0];
+
+            }
+            else if ((canvas.height - creature.y) < 10) {
+                newDirectionVector = [0, -1];
+            }
+
+            if (!newDirectionVector.equals([0,0])) {
+                creature.directionVector[0] += newDirectionVector[0];
+                creature.directionVector[1] += newDirectionVector[1];
+    
+                creature.directionVector[0] /= 2;
+                creature.directionVector[1] /= 2;
+            }
+
             creature.move(creature.directionVector, creature.speed);
             creature.energy -= creature.energyPerMove;
             creature.age += 1;
@@ -289,12 +343,12 @@ export default class Population {
         }
 
         let perceptionDisplay = document.querySelector("#perceptionDisplay");
-        perceptionDisplay.innerHTML = "Perception field average: " + averages[0];
+        perceptionDisplay.innerHTML = "Perception Field Average: " + averages[0];
         perceptionDisplay.style.width = (averages[0]/defaultCreature.maxPerceptionFieldDistance * 100) + "%";
 
 
         let sizeDisplay = document.querySelector("#sizeDisplay");
-        sizeDisplay.innerHTML = "Size Field Average: " + averages[1];
+        sizeDisplay.innerHTML = "Size Average: " + averages[1];
         sizeDisplay.style.width = (averages[1]/defaultCreature.maxSize * 100) + "%";
 
 
@@ -313,6 +367,8 @@ export default class Population {
         dangerDisplay.style.width = (averages[4]/defaultCreature.maxDangerThreshold * 100) + "%";
 
     }
+
+
 }
 
 
