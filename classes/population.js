@@ -114,9 +114,7 @@ export default class Population {
             if (!newDirectionVector.equals([0,0])) {
                 creature.directionVector[0] += newDirectionVector[0];
                 creature.directionVector[1] += newDirectionVector[1];
-    
-                creature.directionVector[0] /= 2;
-                creature.directionVector[1] /= 2;
+
             }
 
 
@@ -158,7 +156,6 @@ export default class Population {
                                 }
                                 this.carnivores.push(children[index]);
                             }
-                            console.log("snake bred");
 
                             creature.energy -= 70;
                             mate_distances[i][1].energy -= 70;
@@ -182,7 +179,6 @@ export default class Population {
                     if (this.checkCollision(creature, prey_distances[0][1])) {
                         creature.energy = Math.min(creature.energy + prey_distances[0][1].maxEnergy, creature.maxEnergy);
                         this.herbivores.remove(prey_distances[0][1]);
-                        console.log("snake ate");
                     }
                 }
             }
@@ -208,9 +204,6 @@ export default class Population {
             if (!newDirectionVector.equals([0,0])) {
                 creature.directionVector[0] += newDirectionVector[0];
                 creature.directionVector[1] += newDirectionVector[1];
-    
-                creature.directionVector[0] /= 2;
-                creature.directionVector[1] /= 2;
             }
 
             creature.move(creature.directionVector, creature.speed);
@@ -340,6 +333,10 @@ export default class Population {
 
         else if (foodtype == "carnivore") {
             averages = this.findcreatureAverages(this.carnivores);
+        }
+
+        if (isNaN(averages[0])) {
+            averages = ["None Alive", "None Alive", "None Alive", "None Alive", "None Alive"]
         }
 
         let perceptionDisplay = document.querySelector("#perceptionDisplay");
