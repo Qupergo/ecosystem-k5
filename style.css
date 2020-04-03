@@ -15,7 +15,7 @@
 
 .displayBar {
     padding: 5px;
-    transition: width 1s ease;
+    transition: width 0.1s ease;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-radius: 10px;

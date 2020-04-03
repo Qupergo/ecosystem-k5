@@ -10,7 +10,7 @@ export default class Population {
         this.carnivoreAmount = carnivoreAmount;
         this.foodSpawnFrequency = foodSpawnFrequency;
 
-        this.maxFood = herbivoreAmount*4;
+        this.maxFood = 1200;
         this.food = [];
         for (let index = 0; index < this.maxFood; index++) {
             this.food.push(new Food())
@@ -345,6 +345,13 @@ export default class Population {
 
         let totalAlive = this.herbivores.length + this.carnivores.length;
         if (canvas.width > 500) {
+            if (this.carnivores.length <= 0) {
+                carnivoreBar.style.display = "none";
+            }
+            else {
+                carnivoreBar.style.display = "block";
+            }
+            
             carnivoreBar.style.width = (this.carnivores.length/totalAlive * 100) + "%";
         }
         else {

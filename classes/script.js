@@ -10,14 +10,10 @@ canvas.height = window.innerHeight*0.75;
 let carnivoreCounter = document.querySelector("#carnivoreCounter")
 let herbivoreCounter = document.querySelector("#herbivoreCounter")
 
-let popis = new Population(400,100,0.01);
-
-let renderer = new render(canvas,popis);
+let popis;
+let renderer;
 
 let displayType = "herbivore";
-
-
-renderer.draw();
 
 let restartButton = document.querySelector("#restart-button")
 
@@ -82,7 +78,7 @@ function simulationStep() {
 
 
 function makeNewPop() {
-    popis = new Population(400, 100, 0.01)
+    popis = new Population(0, 0, 0.01)
     renderer = new render(canvas,popis);
 }
 
@@ -97,8 +93,6 @@ function addHerbivores() {
         popis.herbivores.push(new Creature("herbivore"))
     }
 }
-
-setInterval(simulationStep, 0);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return
@@ -123,6 +117,10 @@ Array.prototype.equals = function (array) {
     }       
     return true;
 }
+
+makeNewPop();
+setInterval(simulationStep, 1);
+
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
