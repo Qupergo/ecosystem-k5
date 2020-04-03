@@ -41,7 +41,7 @@ export default class render {
             this.ctx.fill();
             //Draw energy
             this.ctx.strokeStyle = "hsl(0,0%," + ((herbivore.energy/herbivore.maxEnergy)*100) + "%)";
-            this.ctx.lineWidth = 5;
+            this.ctx.lineWidth = this.canvas.width/400;
             this.ctx.closePath();
             this.ctx.stroke();
 
@@ -63,7 +63,7 @@ export default class render {
             this.ctx.fillStyle = carnivore.color;
             this.ctx.fill();
             this.ctx.strokeStyle = "hsl(0,0%," + ((carnivore.energy/carnivore.maxEnergy)*100) + "%)";
-            this.ctx.lineWidth = 5;
+            this.ctx.lineWidth = this.canvas.width/400;
             this.ctx.closePath();
             this.ctx.stroke();
             
