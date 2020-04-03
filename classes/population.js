@@ -339,6 +339,20 @@ export default class Population {
             averages = ["None Alive", "None Alive", "None Alive", "None Alive", "None Alive"]
         }
 
+                
+        let carnivoreBar = document.querySelector("#carnivoreDisplay");
+        let herbivoreBar = document.querySelector("#herbivoreDisplay");
+
+        let totalAlive = this.herbivores.length + this.carnivores.length;
+        if (canvas.width > 500) {
+            carnivoreBar.style.width = (this.carnivores.length/totalAlive * 100) + "%";
+        }
+        else {
+            carnivoreBar.style.display = "none";
+            herbivoreBar.style.display = "none";
+        }
+
+
         let perceptionDisplay = document.querySelector("#perceptionDisplay");
         perceptionDisplay.innerHTML = "Perception Field Average: " + averages[0];
         perceptionDisplay.style.width = (averages[0]/defaultCreature.maxPerceptionFieldDistance * 100) + "%";

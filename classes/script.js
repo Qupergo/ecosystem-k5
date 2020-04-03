@@ -1,6 +1,7 @@
 import World from "./world.js";
 import Population from "./population.js";
 import render from "./render.js";
+import Creature from "./creatures.js";
 
 let canvas = document.querySelector("#EcosystemCanvas");
 canvas.width  = window.innerWidth*0.75;
@@ -22,6 +23,11 @@ let restartButton = document.querySelector("#restart-button")
 
 let carnivoreButton = document.querySelector("#carnivoreButton")
 let herbivoreButton = document.querySelector("#herbivoreButton")
+
+
+let addCarnivoreButton = document.querySelector("#addCarnivore")
+let addHerbivoreButton = document.querySelector("#addHerbivore")
+
 let perceptionDisplay = document.querySelector("#perceptionDisplay");
 let sizeDisplay = document.querySelector("#sizeDisplay");
 let speedDisplay = document.querySelector("#speedDisplay");
@@ -29,7 +35,6 @@ let foodDisplay = document.querySelector("#foodDisplay");
 let dangerDisplay = document.querySelector("#dangerDisplay");
 
 let displays = [perceptionDisplay, sizeDisplay, speedDisplay, foodDisplay, dangerDisplay];
-
 
 
 function changeDisplayType(event) {
@@ -59,10 +64,13 @@ function changeDisplayType(event) {
     
 
 }
+addCarnivoreButton.addEventListener("click", addCarnivores);
+addHerbivoreButton.addEventListener("click", addHerbivores);
 
-restartButton.addEventListener("click", makeNewPop)
+restartButton.addEventListener("click", makeNewPop);
 carnivoreButton.addEventListener("click", changeDisplayType);
 herbivoreButton.addEventListener("click", changeDisplayType);
+
 
 function simulationStep() {
     popis.makeMoves();
@@ -76,6 +84,18 @@ function simulationStep() {
 function makeNewPop() {
     popis = new Population(400, 100, 0.01)
     renderer = new render(canvas,popis);
+}
+
+function addCarnivores() {
+    for (let index = 0; index < 10; index++) {
+        popis.carnivores.push(new Creature("carnivore"))
+    }
+}
+
+function addHerbivores() {
+    for (let index = 0; index < 10; index++) {
+        popis.herbivores.push(new Creature("herbivore"))
+    }
 }
 
 setInterval(simulationStep, 0);

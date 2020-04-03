@@ -16,12 +16,26 @@
       <p>The red dots are food for herbivores while the food for carnivores are the herbivores.</p>
 
     <button id="restart-button">Restart population</button>
-
+    
     <canvas id="EcosystemCanvas"></canvas>
    
-    <div class="flex-row">
+    <div class="flex-row-justify">
       <h1 id="carnivoreCounter">0 Carnivores</h1>
+
+      <div class="flex-row">
+        <div id="herbivoreDisplay" class="displayBar">
+          <div id="carnivoreDisplay" class="displayBar"></div>
+        </div>
+      </div>
+
       <h1 id="herbivoreCounter">0 Herbivores</h1>
+    </div>
+    
+
+
+    <div class="flex-row-justify">
+      <button id="addCarnivore" class="cronch-click">+</button>
+      <button id="addHerbivore" class="cronch-click">+</button>
     </div>
 
     <button id="herbivoreButton">Show herbivore stats</button>
@@ -48,7 +62,7 @@
     </div>
 
     <footer class="copyright">
-      <p>Copyright © 2020, Oscar and Sebastian. All Right Reserved</p>
+      <p>Copyright © 2020, Oscar and Sebastian co. All Rights Reserved</p>
     </footer>
 
 

@@ -11,17 +11,15 @@
     border-radius: 10px;
     margin: 5px;
     padding: 5px;
-
 }
 
 .displayBar {
     padding: 5px;
-    transition: width 1s;
+    transition: width 1s ease;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-radius: 10px;
-    font-family: 'Do Hyeon', sans-serif; 
-
+    font-family: 'Do Hyeon', sans-serif;
 }
 
 .greenBorder {
@@ -38,12 +36,20 @@
     align-items: center;
 }
 
-.flex-row{
+.flex-row-justify{
     display:flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
     justify-content: space-evenly;
+}
+
+.flex-row {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
 
 }
 
@@ -106,4 +112,41 @@ button {
 
 .copyright {
     text-align: center;
+}
+
+#carnivoreDisplay {
+    background-color: #931621;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
+    margin:0;
+
+}
+
+#herbivoreDisplay {
+    background-color: #00CC66;
+    border-radius: 5px;
+    width: 100%;
+    padding: 0;
+
+}
+
+.cronch-click {
+    transition: transform ease 100ms;
+}
+
+.cronch-click:active {
+    transform: scale(0.95);
+}
+
+#addCarnivore {
+    background-color: #931621;
+    outline: none;
+
+}
+
+#addHerbivore {
+    background-color: #00CC66;
+    outline: none;
 }
