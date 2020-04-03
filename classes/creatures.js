@@ -3,7 +3,8 @@ export default class Creature {
     constructor(foodType) {
         this.foodType = foodType;
         this.lookingForMate = false;
-        this.directionVector= [0,0];
+        const rand = Math.random();
+        this.directionVector= [(2*rand-1),1-(2*rand-1)];
         this.energyPerMove = 0;
         this.alive = true;
 
@@ -39,7 +40,7 @@ export default class Creature {
     }
 
     calculateEnergyPerMove(){
-        this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*0.5 + this.speed/this.maxSpeed*0.2 + this.size/this.maxSize*0.1;
+        this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*0.2 + this.speed/this.maxSpeed*0.1 + this.size/this.maxSize*0.2;
     }
 
     move(directionVector, speed=1) {
