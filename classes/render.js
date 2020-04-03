@@ -16,7 +16,7 @@ export default class render {
             const currentFood = this.population.food[i]
             this.ctx.fillStyle = "brown";
             this.ctx.beginPath();
-            this.ctx.arc(currentFood.x, currentFood.y, currentFood.givenEnergy/10+5, 0, 2 * Math.PI);
+            this.ctx.arc(currentFood.x, currentFood.y, currentFood.size, 0, 2 * Math.PI);
             this.ctx.closePath()
             this.ctx.fill();
         }

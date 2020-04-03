@@ -5,6 +5,6 @@ export default class Food {
         this.x = canvas.width * Math.random();
         this.y = canvas.height * Math.random();
         this.givenEnergy = 20;
-        this.size = canvas.width/(this.givenEnergy/5+5);
+        this.size = canvas.width/(50*(this.givenEnergy/5+5));
     }
 }

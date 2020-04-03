@@ -22,7 +22,7 @@ export default class Creature {
 
         // Customizable max values
         this.maxSize = canvas.width/200;
-        this.maxPerceptionFieldDistance = this.maxSize*2;
+        this.maxPerceptionFieldDistance = this.maxSize*10;
         this.maxSpeed = this.maxSize/2;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
