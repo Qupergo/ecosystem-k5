@@ -80,6 +80,6 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px;
     background-color: #583840;
+    padding: 10px;
 }
