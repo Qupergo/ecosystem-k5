@@ -20,8 +20,8 @@ export default class Creature {
 
         // Customizable max values
         this.maxPerceptionFieldDistance = 200;
-        this.maxSpeed = 5;
-        this.maxSize = 20;
+        this.maxSpeed = 10;
+        this.maxSize = 30;
         this.maxFoodThreshold = 1;
         this.maxDangerThreshold = 1;
 
@@ -39,7 +39,7 @@ export default class Creature {
     }
 
     calculateEnergyPerMove(){
-        this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*0.2 + this.speed/this.maxSpeed*0.1 + this.size/this.maxSize*0.2;
+        this.energyPerMove = this.perceptionFieldDistance/this.maxPerceptionFieldDistance*0.5 + this.speed/this.maxSpeed*0.2 + this.size/this.maxSize*0.1;
     }
 
     move(directionVector, speed=1) {
