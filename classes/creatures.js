@@ -1,4 +1,5 @@
 const canvas = document.querySelector("#EcosystemCanvas");
+
 export default class Creature {
     constructor(foodType) {
         this.foodType = foodType;
