@@ -18,6 +18,8 @@ let displayType = "herbivore";
 
 renderer.draw();
 
+let restartButton = document.querySelector("#restart-button")
+
 let carnivoreButton = document.querySelector("#carnivoreButton")
 let herbivoreButton = document.querySelector("#herbivoreButton")
 let perceptionDisplay = document.querySelector("#perceptionDisplay");
@@ -27,6 +29,7 @@ let foodDisplay = document.querySelector("#foodDisplay");
 let dangerDisplay = document.querySelector("#dangerDisplay");
 
 let displays = [perceptionDisplay, sizeDisplay, speedDisplay, foodDisplay, dangerDisplay];
+
 
 
 function changeDisplayType(event) {
@@ -57,10 +60,11 @@ function changeDisplayType(event) {
 
 }
 
+restartButton.addEventListener("click", makeNewPop)
 carnivoreButton.addEventListener("click", changeDisplayType);
 herbivoreButton.addEventListener("click", changeDisplayType);
 
-function doStuff() {
+function simulationStep() {
     popis.makeMoves();
     renderer.draw();
     carnivoreCounter.innerHTML = (popis.carnivores.length) + " Carnivores"
@@ -68,7 +72,13 @@ function doStuff() {
     popis.updateStatDisplay(displayType);
 }
 
-setInterval(doStuff, 1);
+
+function makeNewPop() {
+    popis = new Population(400, 100, 0.01)
+    renderer = new render(canvas,popis);
+}
+
+setInterval(simulationStep, 0);
 
 Array.prototype.equals = function (array) {
     // if the other array is a falsy value, return

@@ -1,5 +1,5 @@
 * {
-
+    font-family: 'Do Hyeon', sans-serif;
 }
 
 #EcosystemCanvas {
@@ -88,10 +88,15 @@ button {
     display: none;
 }
 
-#statCointainer {
+#central-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#restart-button {
+    background-color: #FFAE03;
+    margin: 10px;
 }
 
 #EcosystemCanvas {
@@ -99,3 +104,6 @@ button {
     border-radius: 5px;
 }
 
+.copyright {
+    text-align: center;
+}
